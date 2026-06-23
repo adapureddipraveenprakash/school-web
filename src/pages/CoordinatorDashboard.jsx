@@ -42,7 +42,7 @@ const CoordinatorDashboard = () => {
     } else if (item === 'Wing Fees') {
       navigate('/settings/fee-overview');
     } else if (item === 'Post Notice') {
-      navigate('/settings/send-notification');
+      navigate('/settings/post-notice');
     } else if (item === 'View Notices') {
       navigate('/settings/notifications');
     }
@@ -106,22 +106,22 @@ const CoordinatorDashboard = () => {
             </div>
 
             {/* Bottom aggregate statistics grid */}
-            <div className="grid grid-cols-4 gap-2 pt-6 border-t border-white/15 text-center">
-              <div className="border-r border-white/15 last:border-none">
-                <p className="text-xl font-bold md:text-2xl">{studentsCount}</p>
-                <p className="text-[9px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans">Wing Students</p>
+            <div className="grid grid-cols-4 gap-1 sm:gap-2 pt-6 border-t border-white/15 text-center">
+              <div className="border-r border-white/15 last:border-none px-0.5">
+                <p className="text-base sm:text-xl md:text-2xl font-bold">{studentsCount}</p>
+                <p className="text-[7.5px] sm:text-[9.5px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans whitespace-nowrap">Wing Students</p>
               </div>
-              <div className="border-r border-white/15 last:border-none">
-                <p className="text-sm font-bold md:text-base">Rs {collectedFee.toLocaleString('en-IN')}</p>
-                <p className="text-[9px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans">Collected</p>
+              <div className="border-r border-white/15 last:border-none px-0.5">
+                <p className="text-xs sm:text-sm md:text-base font-bold">Rs {collectedFee.toLocaleString('en-IN')}</p>
+                <p className="text-[7.5px] sm:text-[9.5px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans whitespace-nowrap">Collected</p>
               </div>
-              <div className="border-r border-white/15 last:border-none">
-                <p className="text-sm font-bold md:text-base">Rs {pendingFee.toLocaleString('en-IN')}</p>
-                <p className="text-[9px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans font-medium">Pending</p>
+              <div className="border-r border-white/15 last:border-none px-0.5">
+                <p className="text-xs sm:text-sm md:text-base font-bold">Rs {pendingFee.toLocaleString('en-IN')}</p>
+                <p className="text-[7.5px] sm:text-[9.5px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans font-medium whitespace-nowrap">Pending</p>
               </div>
-              <div>
-                <p className="text-xl font-bold md:text-2xl">{collectionRate}%</p>
-                <p className="text-[9px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans font-medium">Rate</p>
+              <div className="px-0.5">
+                <p className="text-base sm:text-xl md:text-2xl font-bold">{collectionRate}%</p>
+                <p className="text-[7.5px] sm:text-[9.5px] md:text-[10px] text-white/70 font-bold uppercase tracking-wider mt-0.5 font-sans font-medium whitespace-nowrap">Rate</p>
               </div>
             </div>
           </div>

@@ -256,6 +256,23 @@ export const AppProvider = ({ children }) => {
     addLog(`Created new branch: ${branchData.name} (${branchData.code})`);
   };
 
+  const updateBranch = (id, updatedFields) => {
+    setBranches(prev => prev.map(b => b.id === id ? { ...b, ...updatedFields } : b));
+    if (currentBranchContext && currentBranchContext.id === id) {
+      setCurrentBranchContext(prev => ({ ...prev, ...updatedFields }));
+    }
+    addLog(`Updated branch details for: ${updatedFields.name || id}`);
+  };
+
+  const deleteBranch = (id) => {
+    const foundBranch = branches.find(b => b.id === id);
+    setBranches(prev => prev.filter(b => b.id !== id));
+    if (currentBranchContext && currentBranchContext.id === id) {
+      setCurrentBranchContext(null);
+    }
+    addLog(`Deleted branch: ${foundBranch?.name || id} (${foundBranch?.code || 'N/A'})`);
+  };
+
   const addUser = (userData) => {
     const newUser = {
       uid: 'user-' + Date.now(),
@@ -350,6 +367,8 @@ export const AppProvider = ({ children }) => {
       switchRole,
       setCurrentBranchContext,
       addBranch,
+      updateBranch,
+      deleteBranch,
       addUser,
       changeUserRole,
       addNotification,

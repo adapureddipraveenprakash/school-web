@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import {
   FiArrowLeft, FiUser, FiPhone, FiImage, FiCreditCard,
   FiDroplet, FiHome, FiMapPin, FiMap, FiHash, FiCalendar,
-  FiCheckCircle, FiAlertCircle
+  FiCheckCircle, FiAlertCircle, FiChevronsLeft, FiChevronsRight,
+  FiChevronLeft, FiChevronRight
 } from 'react-icons/fi';
 import { HiOutlineUserPlus } from 'react-icons/hi2';
 
@@ -23,6 +24,111 @@ const CreateStudent = () => {
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState('');
   const [admissionDate, setAdmissionDate] = useState('21-06-2026');
+
+  // Custom Calendar State
+  const [activePicker, setActivePicker] = useState(null); // 'dob' | 'admission' | null
+  const [viewMonth, setViewMonth] = useState(5); // 0-based, June
+  const [viewYear, setViewYear] = useState(2026);
+  const [tempDay, setTempDay] = useState(9);
+
+  const parseDateString = (str) => {
+    if (!str) return null;
+    const parts = str.split('-');
+    if (parts.length === 3) {
+      const d = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10) - 1; // 0-based
+      const y = parseInt(parts[2], 10);
+      if (!isNaN(d) && !isNaN(m) && !isNaN(y)) {
+        return { day: d, month: m, year: y };
+      }
+    }
+    return null;
+  };
+
+  const formatDate = (d, m, y) => {
+    const dd = String(d).padStart(2, '0');
+    const mm = String(m + 1).padStart(2, '0');
+    const yyyy = y;
+    return `${dd}-${mm}-${yyyy}`;
+  };
+
+  const openCalendar = (field) => {
+    const value = field === 'dob' ? dob : admissionDate;
+    const parsed = parseDateString(value);
+    if (parsed) {
+      setViewMonth(parsed.month);
+      setViewYear(parsed.year);
+      setTempDay(parsed.day);
+    } else {
+      setViewMonth(5); // June
+      setViewYear(2026);
+      setTempDay(9);
+    }
+    setActivePicker(field);
+  };
+
+  const selectDay = (day) => {
+    const formatted = formatDate(day, viewMonth, viewYear);
+    if (activePicker === 'dob') {
+      setDob(formatted);
+    } else {
+      setAdmissionDate(formatted);
+    }
+    setActivePicker(null);
+  };
+
+  const selectToday = () => {
+    const formatted = formatDate(23, 5, 2026); // 23-06-2026 (matching June 23, 2026 context)
+    if (activePicker === 'dob') {
+      setDob(formatted);
+    } else {
+      setAdmissionDate(formatted);
+    }
+    setActivePicker(null);
+  };
+
+  const prevMonth = () => {
+    if (viewMonth === 0) {
+      setViewMonth(11);
+      setViewYear(prev => prev - 1);
+    } else {
+      setViewMonth(prev => prev - 1);
+    }
+  };
+
+  const nextMonth = () => {
+    if (viewMonth === 11) {
+      setViewMonth(0);
+      setViewYear(prev => prev + 1);
+    } else {
+      setViewMonth(prev => prev + 1);
+    }
+  };
+
+  const prevYear = () => {
+    setViewYear(prev => prev - 1);
+  };
+
+  const nextYear = () => {
+    setViewYear(prev => prev + 1);
+  };
+
+  const getYearsRange = () => {
+    const current = 2026;
+    if (activePicker === 'dob') {
+      const range = [];
+      for (let y = 1995; y <= current; y++) {
+        range.push(y);
+      }
+      return range;
+    } else {
+      const range = [];
+      for (let y = 2015; y <= 2035; y++) {
+        range.push(y);
+      }
+      return range;
+    }
+  };
 
   const [fatherName, setFatherName] = useState('');
   const [fatherMobile, setFatherMobile] = useState('');
@@ -194,12 +300,16 @@ const CreateStudent = () => {
                   <input
                     type="text"
                     required
+                    readOnly
                     placeholder="DD-MM-YYYY"
                     value={dob}
-                    onChange={(e) => setDob(e.target.value)}
-                    className="w-full pl-4 pr-10 py-3 bg-white border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-brand-blue text-xs font-semibold text-dark placeholder:text-secondaryText/60"
+                    onClick={() => openCalendar('dob')}
+                    className="w-full pl-4 pr-10 py-3 bg-white border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-brand-blue text-xs font-semibold text-dark placeholder:text-secondaryText/60 cursor-pointer"
                   />
-                  <FiCalendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-secondaryText" />
+                  <FiCalendar 
+                    onClick={() => openCalendar('dob')}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-secondaryText cursor-pointer hover:text-brand-blue transition-colors" 
+                  />
                 </div>
               </div>
 
@@ -209,12 +319,16 @@ const CreateStudent = () => {
                   <input
                     type="text"
                     required
+                    readOnly
                     placeholder="Admission Date *"
                     value={admissionDate}
-                    onChange={(e) => setAdmissionDate(e.target.value)}
-                    className="w-full pl-4 pr-10 py-3 bg-white border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-brand-blue text-xs font-semibold text-dark"
+                    onClick={() => openCalendar('admission')}
+                    className="w-full pl-4 pr-10 py-3 bg-white border border-[#e2e8f0] rounded-xl focus:outline-none focus:border-brand-blue text-xs font-semibold text-dark cursor-pointer"
                   />
-                  <FiCalendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-secondaryText" />
+                  <FiCalendar 
+                    onClick={() => openCalendar('admission')}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-secondaryText cursor-pointer hover:text-brand-blue transition-colors" 
+                  />
                 </div>
               </div>
             </div>
@@ -452,6 +566,159 @@ const CreateStudent = () => {
           Add Student
         </button>
       </form>
+
+      {/* Custom Calendar Overlay Modal */}
+      {activePicker && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4 animate-[fadeIn_0.2s_ease-out]">
+          <div className="bg-white rounded-[32px] w-full max-w-[340px] p-5 shadow-2xl space-y-4 border border-[#e2e8f0]/60 animate-[scaleUp_0.2s_ease-out]">
+            {/* Header controls: <<  <  Month  >  >> */}
+            <div className="flex items-center justify-between text-dark">
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={prevYear}
+                  className="p-1.5 hover:bg-[#EEF5FB] rounded-lg transition-colors cursor-pointer text-secondaryText"
+                >
+                  <FiChevronsLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={prevMonth}
+                  className="p-1.5 hover:bg-[#EEF5FB] rounded-lg transition-colors cursor-pointer text-secondaryText"
+                >
+                  <FiChevronLeft className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="text-center">
+                <h4 className="text-sm font-extrabold text-dark leading-tight">
+                  {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][viewMonth]}
+                </h4>
+                <p className="text-[10px] text-[#A0AEC0] font-bold mt-0.5">{viewYear}</p>
+              </div>
+
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={nextMonth}
+                  className="p-1.5 hover:bg-[#EEF5FB] rounded-lg transition-colors cursor-pointer text-secondaryText"
+                >
+                  <FiChevronRight className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextYear}
+                  className="p-1.5 hover:bg-[#EEF5FB] rounded-lg transition-colors cursor-pointer text-secondaryText"
+                >
+                  <FiChevronsRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Year Selector */}
+            <div className="space-y-1">
+              <span className="text-[9px] font-bold text-secondaryText/80 tracking-wider uppercase block">Year</span>
+              <div className="flex gap-1.5 overflow-x-auto py-1 scrollbar-none select-none">
+                {getYearsRange().map((y) => {
+                  const isSelected = y === viewYear;
+                  return (
+                    <button
+                      key={y}
+                      type="button"
+                      onClick={() => setViewYear(y)}
+                      className={`px-3.5 py-1.5 rounded-full text-[10px] font-extrabold shrink-0 transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#1597E5] text-white shadow-sm shadow-[#1597E5]/30'
+                          : 'bg-[#EEF5FB] text-secondaryText hover:bg-slate-100'
+                      }`}
+                    >
+                      {y}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Month Selector */}
+            <div className="space-y-1">
+              <span className="text-[9px] font-bold text-secondaryText/80 tracking-wider uppercase block">Month</span>
+              <div className="grid grid-cols-3 gap-1.5">
+                {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((mName, idx) => {
+                  const isSelected = idx === viewMonth;
+                  return (
+                    <button
+                      key={mName}
+                      type="button"
+                      onClick={() => setViewMonth(idx)}
+                      className={`py-1.5 rounded-full text-[10px] font-extrabold transition-all cursor-pointer text-center ${
+                        isSelected
+                          ? 'bg-[#1597E5] text-white shadow-sm shadow-[#1597E5]/30'
+                          : 'bg-[#EEF5FB] text-secondaryText hover:bg-slate-100'
+                      }`}
+                    >
+                      {mName}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Days Grid */}
+            <div className="space-y-1.5 pt-1">
+              <div className="grid grid-cols-7 gap-1 text-center font-bold text-[9px] text-[#A0AEC0] uppercase tracking-wider">
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((dayChar, i) => (
+                  <span key={i}>{dayChar}</span>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-7 gap-1 text-center">
+                {/* Empty cells before the start of the month */}
+                {Array.from({ length: new Date(viewYear, viewMonth, 1).getDay() }).map((_, i) => (
+                  <div key={`empty-${i}`} />
+                ))}
+
+                {/* Days of the month */}
+                {Array.from({ length: new Date(viewYear, viewMonth + 1, 0).getDate() }).map((_, i) => {
+                  const dayNum = i + 1;
+                  const isSelected = dayNum === tempDay;
+                  return (
+                    <button
+                      key={dayNum}
+                      type="button"
+                      onClick={() => selectDay(dayNum)}
+                      className={`w-7.5 h-7.5 rounded-full flex items-center justify-center mx-auto text-[10px] font-bold transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#1597E5] text-white shadow-md shadow-[#1597E5]/20 font-black'
+                          : 'text-dark hover:bg-[#EEF5FB] font-semibold'
+                      }`}
+                    >
+                      {dayNum}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="flex items-center justify-end gap-3 pt-2.5 border-t border-[#e2e8f0]/40">
+              <button
+                type="button"
+                onClick={() => setActivePicker(null)}
+                className="text-[11px] font-bold text-secondaryText hover:text-dark px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={selectToday}
+                className="px-4 py-1.5 border border-[#1597E5] text-[#1597E5] hover:bg-[#1597E5]/5 rounded-xl text-[11px] font-bold active:scale-95 transition-all cursor-pointer"
+              >
+                Today
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };

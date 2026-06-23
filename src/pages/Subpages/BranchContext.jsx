@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiSearch, FiMapPin, FiCheck, FiLogIn, FiChevronRight } from 'react-icons/fi';
+import {
+  FiArrowLeft, FiSearch, FiMapPin, FiCheck, FiLogIn, FiChevronRight,
+  FiLogOut, FiGrid, FiUser, FiUsers, FiCalendar, FiBookOpen, FiBarChart2, FiSettings
+} from 'react-icons/fi';
 import { BiBuildingHouse } from 'react-icons/bi';
+import { HiOutlineUserGroup } from 'react-icons/hi2';
+import { FaCashRegister } from 'react-icons/fa';
 
 const BranchContext = () => {
   const { branches, currentBranchContext, setCurrentBranchContext, addLog } = useApp();
@@ -18,8 +23,166 @@ const BranchContext = () => {
   const handleSelectBranch = (branch) => {
     setCurrentBranchContext(branch);
     addLog(`Entered branch context: ${branch ? branch.name : 'Global'}`);
-    navigate('/dashboard');
   };
+
+  const handleLeaveContext = () => {
+    setCurrentBranchContext(null);
+    addLog('Cleared branch context');
+  };
+
+  // Render Branch Modules Dashboard if in a Branch Context
+  if (currentBranchContext) {
+    const modules = [
+      {
+        label: 'Overview',
+        icon: <FiGrid className="w-5 h-5 text-brand-blue" />,
+        color: 'bg-[#EEF5FB] text-brand-blue',
+        path: '/settings/branch-analytics'
+      },
+      {
+        label: 'Students',
+        icon: <span className="text-lg font-black font-sans leading-none text-brand-blue">?</span>,
+        color: 'bg-[#EEF5FB] text-brand-blue',
+        path: '/settings/global-students'
+      },
+      {
+        label: 'Teachers',
+        icon: <FiUser className="w-5 h-5 text-indigo-500" />,
+        color: 'bg-indigo-50/70 text-indigo-600',
+        path: '/settings/teachers'
+      },
+      {
+        label: 'Class Teachers',
+        icon: (
+          <div className="relative">
+            <FiUsers className="w-5 h-5 text-indigo-500" />
+            <span className="absolute -bottom-1 -right-1 bg-white rounded-full px-0.5 text-[8px] border border-indigo-200">🔄</span>
+          </div>
+        ),
+        color: 'bg-indigo-50/70 text-indigo-600',
+        path: '/settings/class-teachers'
+      },
+      {
+        label: 'Coordinators',
+        icon: <HiOutlineUserGroup className="w-5 h-5 text-purple-500" />,
+        color: 'bg-purple-50/70 text-purple-600',
+        path: '/settings/coordinators'
+      },
+      {
+        label: 'Accountants',
+        icon: (
+          <div className="relative">
+            <FiUser className="w-5 h-5 text-amber-500" />
+            <span className="absolute -bottom-1 -right-1 bg-white rounded-full px-0.5 text-[8px] border border-amber-200">💵</span>
+          </div>
+        ),
+        color: 'bg-amber-50/70 text-amber-600',
+        path: '/settings/accountants'
+      },
+      {
+        label: 'Attendance',
+        icon: <FiCalendar className="w-5 h-5 text-emerald-500" />,
+        color: 'bg-emerald-50/70 text-emerald-600',
+        path: '/settings/attendance-overview'
+      },
+      {
+        label: 'Fees',
+        icon: <FaCashRegister className="w-5 h-5 text-rose-500" />,
+        color: 'bg-rose-50/70 text-rose-600',
+        path: '/settings/fee-overview'
+      },
+      {
+        label: 'Sections',
+        icon: <FiGrid className="w-5 h-5 text-sky-500" />,
+        color: 'bg-sky-50/75 text-sky-600',
+        path: '/settings/sections'
+      },
+      {
+        label: 'Classes',
+        icon: <FiBookOpen className="w-5 h-5 text-brand-blue" />,
+        color: 'bg-[#EEF5FB] text-brand-blue',
+        path: '/settings/classes'
+      },
+      {
+        label: 'Reports',
+        icon: <FiBarChart2 className="w-5 h-5 text-brand-blue" />,
+        color: 'bg-[#EEF5FB] text-brand-blue',
+        path: '/settings/global-reports'
+      },
+      {
+        label: 'Branch Settings',
+        icon: <FiSettings className="w-5 h-5 text-slate-500" />,
+        color: 'bg-slate-100 text-slate-600',
+        path: '/settings/branch-settings'
+      }
+    ];
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.3 }}
+        className="p-4 md:p-8 space-y-6 pb-20 md:pb-8 max-w-[640px] mx-auto"
+      >
+        {/* Top Curved Header */}
+        <div className="relative -mx-4 -mt-4 md:-mx-8 md:-mt-8 rounded-b-[40px] bg-gradient-to-br from-brand-blue to-brand-secondary p-8 text-white card-shadow overflow-hidden mb-6">
+          <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10" />
+          <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5" />
+
+          <div className="flex justify-between items-center relative z-10">
+            <button
+              onClick={handleLeaveContext}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-red-500/10 border border-red-500/25 text-[#FF6B6B] hover:bg-red-500/20 hover:text-white transition-all font-bold text-xs active:scale-95 cursor-pointer shadow-sm"
+            >
+              <FiLogOut className="w-4 h-4" />
+              <span>Leave Context</span>
+            </button>
+            <div className="text-right">
+              <span className="text-[10px] text-white/70 font-semibold tracking-wider uppercase">Branch Context</span>
+              <h2 className="text-lg font-bold md:text-xl">{currentBranchContext.name}</h2>
+            </div>
+          </div>
+        </div>
+
+        {/* Section Title */}
+        <div>
+          <h2 className="text-[11px] font-extrabold text-secondaryText tracking-widest uppercase mb-4 px-1">
+            Branch Modules
+          </h2>
+
+          {/* 3x4 Modules Grid */}
+          <div className="grid grid-cols-3 gap-4">
+            {modules.map((mod) => (
+              <div
+                key={mod.label}
+                onClick={() => navigate(mod.path)}
+                className="bg-white rounded-[28px] p-4 card-shadow border border-[#e2e8f0]/45 flex flex-col items-center justify-center aspect-square cursor-pointer hover:border-brand-blue/30 hover:shadow-md transition-all hover:-translate-y-0.5 group active:scale-95"
+              >
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition-all ${mod.color}`}>
+                  {mod.icon}
+                </div>
+                <span className="text-[11px] font-extrabold text-dark tracking-tight leading-tight px-1 text-center">
+                  {mod.label}
+                </span>
+              </div>
+            ))}
+
+            {/* Parent Data - Spans Full Width */}
+            <div
+              onClick={() => navigate('/settings/global-students')}
+              className="col-span-3 bg-white rounded-[28px] p-5 card-shadow border border-[#e2e8f0]/45 flex flex-col items-center justify-center cursor-pointer hover:border-brand-blue/30 hover:shadow-md transition-all hover:-translate-y-0.5 group active:scale-95"
+            >
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-2">
+                <FiUser className="w-5 h-5 text-purple-600" />
+              </div>
+              <span className="text-xs font-extrabold text-dark tracking-tight">Parent Data</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -99,22 +262,22 @@ const BranchContext = () => {
             </div>
 
             {/* Stat Row */}
-            <div className="grid grid-cols-4 gap-2 my-5 text-center">
-              <div className="bg-[#EEF5FB] p-2.5 rounded-xl border border-[#e2e8f0]/20">
-                <p className="text-sm font-extrabold text-brand-blue">{b.studentsCount}</p>
-                <p className="text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Students</p>
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2 my-5 text-center">
+              <div className="bg-[#EEF5FB] p-1.5 sm:p-2.5 rounded-xl border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-xs sm:text-sm font-extrabold text-brand-blue leading-none">{b.studentsCount}</p>
+                <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Students</p>
               </div>
-              <div className="bg-[#EEF5FB] p-2.5 rounded-xl border border-[#e2e8f0]/20">
-                <p className="text-sm font-extrabold text-brand-blue">{b.facultyCount}</p>
-                <p className="text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Faculty & Staff</p>
+              <div className="bg-[#EEF5FB] p-1.5 sm:p-2.5 rounded-xl border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-xs sm:text-sm font-extrabold text-brand-blue leading-none">{b.facultyCount}</p>
+                <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Faculty & Staff</p>
               </div>
-              <div className="bg-[#EEF5FB] p-2.5 rounded-xl border border-[#e2e8f0]/20">
-                <p className="text-sm font-extrabold text-accent-purple">{b.coordinatorsCount}</p>
-                <p className="text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Coordinators</p>
+              <div className="bg-[#EEF5FB] p-1.5 sm:p-2.5 rounded-xl border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-xs sm:text-sm font-extrabold text-accent-purple leading-none">{b.coordinatorsCount}</p>
+                <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Coordinators</p>
               </div>
-              <div className="bg-[#E8F8F0] p-2.5 rounded-xl border border-[#23C16B]/10 flex flex-col justify-center items-center">
-                <FiCheck className="w-4 h-4 text-accent-green" />
-                <p className="text-[8px] font-bold text-accent-green uppercase tracking-wider mt-0.5">Principal</p>
+              <div className="bg-[#E8F8F0] p-1.5 sm:p-2.5 rounded-xl border border-[#23C16B]/10 flex flex-col justify-center items-center min-w-0">
+                <FiCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent-green shrink-0" />
+                <p className="text-[7.5px] sm:text-[8px] font-bold text-accent-green uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Principal</p>
               </div>
             </div>
 

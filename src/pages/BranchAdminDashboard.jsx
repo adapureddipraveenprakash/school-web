@@ -202,7 +202,7 @@ const BranchAdminDashboard = () => {
                 <div
                   key={idx}
                   onClick={() => handleListItemClick(item.title)}
-                  className="flex justify-between items-center p-4.5 hover:bg-[#EEF5FB]/30 transition-all cursor-pointer group"
+                  className="flex justify-between items-center p-4 hover:bg-[#EEF5FB]/30 transition-all cursor-pointer group"
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>

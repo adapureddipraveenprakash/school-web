@@ -151,22 +151,22 @@ const Dashboard = () => {
         </div>
 
         {/* Bottom statistics panel */}
-        <div className="grid grid-cols-4 gap-2 pt-6 border-t border-white/10 text-center">
-          <div className="border-r border-white/10 last:border-none">
-            <p className="text-lg font-bold md:text-2xl">{branchesCount}</p>
-            <p className="text-[9px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5">Branches</p>
+        <div className="grid grid-cols-4 gap-1 sm:gap-2 pt-6 border-t border-white/10 text-center">
+          <div className="border-r border-white/10 last:border-none px-0.5">
+            <p className="text-base sm:text-lg md:text-2xl font-bold">{branchesCount}</p>
+            <p className="text-[8px] sm:text-[9.5px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5 whitespace-nowrap">Branches</p>
           </div>
-          <div className="border-r border-white/10 last:border-none">
-            <p className="text-lg font-bold md:text-2xl">{studentsCount}</p>
-            <p className="text-[9px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5">Students</p>
+          <div className="border-r border-white/10 last:border-none px-0.5">
+            <p className="text-base sm:text-lg md:text-2xl font-bold">{studentsCount}</p>
+            <p className="text-[8px] sm:text-[9.5px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5 whitespace-nowrap">Students</p>
           </div>
-          <div className="border-r border-white/10 last:border-none">
-            <p className="text-lg font-bold md:text-2xl">{facultyCount + coordinatorsCount}</p>
-            <p className="text-[9px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5">Faculty & Staff</p>
+          <div className="border-r border-white/10 last:border-none px-0.5">
+            <p className="text-base sm:text-lg md:text-2xl font-bold">{facultyCount + coordinatorsCount}</p>
+            <p className="text-[8px] sm:text-[9.5px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5 whitespace-nowrap">Faculty & Staff</p>
           </div>
-          <div>
-            <p className="text-lg font-bold md:text-2xl">0%</p>
-            <p className="text-[9px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5">Attendance</p>
+          <div className="px-0.5">
+            <p className="text-base sm:text-lg md:text-2xl font-bold">0%</p>
+            <p className="text-[8px] sm:text-[9.5px] md:text-xs text-white/60 font-semibold uppercase tracking-wider mt-0.5 whitespace-nowrap">Attendance</p>
           </div>
         </div>
       </div>
@@ -180,22 +180,22 @@ const Dashboard = () => {
           <h2 className="text-xs font-bold text-dark tracking-wider uppercase">Global Overview</h2>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           {/* Card 1: Branches */}
           <div
             onClick={() => handleListItemClick('Manage Branches')}
-            className="bg-white rounded-[24px] p-5 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between h-[150px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
+            className="bg-white rounded-[24px] p-3 sm:p-4 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between min-h-[130px] sm:min-h-[140px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
           >
             <div className="flex justify-between items-start">
-              <div className="w-10 h-10 rounded-xl bg-brand-blue/10 text-brand-blue flex items-center justify-center">
-                <HiOutlineBuildingOffice2 className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-blue/10 text-brand-blue flex items-center justify-center">
+                <HiOutlineBuildingOffice2 className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <FiArrowUpRight className="w-4 h-4 text-secondaryText opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-extrabold text-dark">{branchesCount}</p>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1">Total Branches</p>
-              <p className="text-[9px] font-bold text-accent-green mt-0.5 uppercase">
+            <div className="mt-2.5">
+              <p className="text-xl sm:text-2xl font-extrabold text-dark leading-none">{branchesCount}</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1.5 leading-tight whitespace-nowrap">Total Branches</p>
+              <p className="text-[7.5px] sm:text-[8px] font-bold text-accent-green mt-0.5 uppercase tracking-wide leading-none whitespace-nowrap">
                 {currentBranchContext ? (currentBranchContext.active ? '1 Active' : '0 Active') : `${branches.filter(b=>b.active).length} Active`}
               </p>
             </div>
@@ -204,54 +204,54 @@ const Dashboard = () => {
           {/* Card 2: Students */}
           <div
             onClick={() => handleListItemClick('Global Students')}
-            className="bg-white rounded-[24px] p-5 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between h-[150px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
+            className="bg-white rounded-[24px] p-3 sm:p-4 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between min-h-[130px] sm:min-h-[140px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
           >
             <div className="flex justify-between items-start">
-              <div className="w-10 h-10 rounded-xl bg-accent-green/10 text-accent-green flex items-center justify-center">
-                <HiOutlineUserGroup className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-accent-green/10 text-accent-green flex items-center justify-center">
+                <HiOutlineUserGroup className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <FiArrowUpRight className="w-4 h-4 text-secondaryText opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-extrabold text-dark">{studentsCount}</p>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1">Students</p>
-              <p className="text-[9px] font-bold text-secondaryText mt-0.5 uppercase">Enrolled Globally</p>
+            <div className="mt-2.5">
+              <p className="text-xl sm:text-2xl font-extrabold text-dark leading-none">{studentsCount}</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1.5 leading-tight whitespace-nowrap">Students</p>
+              <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText mt-0.5 uppercase tracking-wide leading-none whitespace-nowrap">Enrolled Globally</p>
             </div>
           </div>
 
           {/* Card 3: Faculty */}
           <div
             onClick={() => handleListItemClick('Manage Users')}
-            className="bg-white rounded-[24px] p-5 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between h-[150px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
+            className="bg-white rounded-[24px] p-3 sm:p-4 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between min-h-[130px] sm:min-h-[140px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
           >
             <div className="flex justify-between items-start">
-              <div className="w-10 h-10 rounded-xl bg-accent-purple/10 text-accent-purple flex items-center justify-center">
-                <FiUsers className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-accent-purple/10 text-accent-purple flex items-center justify-center">
+                <FiUsers className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <FiArrowUpRight className="w-4 h-4 text-secondaryText opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-extrabold text-dark">{facultyCount}</p>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1">Faculty & Staff</p>
-              <p className="text-[9px] font-bold text-secondaryText mt-0.5 uppercase">All Branches</p>
+            <div className="mt-2.5">
+              <p className="text-xl sm:text-2xl font-extrabold text-dark leading-none">{facultyCount}</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1.5 leading-tight whitespace-nowrap">Faculty & Staff</p>
+              <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText mt-0.5 uppercase tracking-wide leading-none whitespace-nowrap">All Branches</p>
             </div>
           </div>
 
           {/* Card 4: Attendance */}
           <div
             onClick={() => navigate('/settings/global-reports')}
-            className="bg-white rounded-[24px] p-5 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between h-[150px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
+            className="bg-white rounded-[24px] p-3 sm:p-4 card-shadow border border-[#e2e8f0]/40 flex flex-col justify-between min-h-[130px] sm:min-h-[140px] relative group cursor-pointer hover:-translate-y-0.5 transition-all"
           >
             <div className="flex justify-between items-start">
-              <div className="w-10 h-10 rounded-xl bg-brand-secondary/10 text-brand-secondary flex items-center justify-center">
-                <HiOutlineCalendarDays className="w-5 h-5" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-brand-secondary/10 text-brand-secondary flex items-center justify-center">
+                <HiOutlineCalendarDays className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
               <FiArrowUpRight className="w-4 h-4 text-secondaryText opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="mt-4">
-              <p className="text-3xl font-extrabold text-dark">0%</p>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1">Attendance</p>
-              <p className="text-[9px] font-bold text-secondaryText mt-0.5 uppercase">Today Global Avg</p>
+            <div className="mt-2.5">
+              <p className="text-xl sm:text-2xl font-extrabold text-dark leading-none">0%</p>
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider mt-1.5 leading-tight whitespace-nowrap">Attendance</p>
+              <p className="text-[7.5px] sm:text-[8px] font-bold text-secondaryText mt-0.5 uppercase tracking-wide leading-none whitespace-nowrap">Today Global Avg</p>
             </div>
           </div>
         </div>
@@ -275,48 +275,48 @@ const Dashboard = () => {
         </div>
 
         {/* Triple Column Card */}
-        <div className="bg-white rounded-[24px] card-shadow border border-[#e2e8f0]/40 overflow-hidden p-6">
-          <div className="grid grid-cols-3 gap-2 text-center pb-6 border-b border-[#e2e8f0]/80">
+        <div className="bg-white rounded-[24px] card-shadow border border-[#e2e8f0]/40 overflow-hidden p-4 sm:p-5 md:p-6">
+          <div className="grid grid-cols-3 gap-1 md:gap-3 text-center pb-5 sm:pb-6 border-b border-[#e2e8f0]/80">
             {/* Collected */}
-            <div className="border-r border-[#e2e8f0]/80 last:border-none px-2">
-              <div className="w-8 h-8 rounded-full bg-accent-green/10 text-accent-green flex items-center justify-center mx-auto mb-2">
-                <FiDollarSign className="w-4 h-4" />
+            <div className="border-r border-[#e2e8f0]/80 last:border-none px-0.5 sm:px-1">
+              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-accent-green/10 text-accent-green flex items-center justify-center mx-auto mb-2">
+                <FiDollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider">Collected</p>
-              <p className="text-lg font-extrabold text-accent-green mt-1">{fees.collected.toLocaleString('en-IN')}</p>
-              <span className="inline-block mt-1 text-[9px] font-bold bg-[#E8F8F0] text-accent-green px-2 py-0.5 rounded-full">
-                📈 Rs {fees.collected.toLocaleString('en-IN')}
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider leading-tight whitespace-nowrap">Collected</p>
+              <p className="text-xs sm:text-sm md:text-base font-extrabold text-accent-green mt-1 leading-tight whitespace-nowrap truncate">{fees.collected.toLocaleString('en-IN')}</p>
+              <span className="inline-block mt-1 text-[7.5px] sm:text-[8px] font-bold bg-[#E8F8F0] text-accent-green px-1.5 sm:px-2 py-0.5 rounded-full leading-none whitespace-nowrap max-w-full truncate">
+                Rs {fees.collected.toLocaleString('en-IN')}
               </span>
             </div>
 
             {/* Pending */}
-            <div className="border-r border-[#e2e8f0]/80 last:border-none px-2">
-              <div className="w-8 h-8 rounded-full bg-accent-red/10 text-accent-red flex items-center justify-center mx-auto mb-2">
-                <FiClock className="w-4 h-4" />
+            <div className="border-r border-[#e2e8f0]/80 last:border-none px-0.5 sm:px-1">
+              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-accent-red/10 text-accent-red flex items-center justify-center mx-auto mb-2">
+                <FiClock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider">Pending</p>
-              <p className="text-lg font-extrabold text-accent-red mt-1">{fees.pending.toLocaleString('en-IN')}</p>
-              <span className="inline-block mt-1 text-[9px] font-bold bg-accent-red/5 text-accent-red px-2 py-0.5 rounded-full">
-                ⚠️ Rs {fees.pending.toLocaleString('en-IN')}
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider leading-tight whitespace-nowrap">Pending</p>
+              <p className="text-xs sm:text-sm md:text-base font-extrabold text-accent-red mt-1 leading-tight whitespace-nowrap truncate">{fees.pending.toLocaleString('en-IN')}</p>
+              <span className="inline-block mt-1 text-[7.5px] sm:text-[8px] font-bold bg-accent-red/5 text-accent-red px-1.5 sm:px-2 py-0.5 rounded-full leading-none whitespace-nowrap max-w-full truncate">
+                Rs {fees.pending.toLocaleString('en-IN')}
               </span>
             </div>
 
             {/* Concession */}
-            <div className="px-2">
-              <div className="w-8 h-8 rounded-full bg-accent-purple/10 text-accent-purple flex items-center justify-center mx-auto mb-2">
-                <FiPercent className="w-4 h-4" />
+            <div className="px-0.5 sm:px-1">
+              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-accent-purple/10 text-accent-purple flex items-center justify-center mx-auto mb-2">
+                <FiPercent className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
-              <p className="text-[10px] font-bold text-secondaryText uppercase tracking-wider">Concession</p>
-              <p className="text-lg font-extrabold text-accent-purple mt-1">{fees.concession.toLocaleString('en-IN')}</p>
-              <span className="inline-block mt-1 text-[9px] font-bold bg-[#EEF5FB] text-brand-blue px-2 py-0.5 rounded-full">
-                Rs {fees.concession}
+              <p className="text-[9px] sm:text-[10px] font-bold text-secondaryText uppercase tracking-wider leading-tight whitespace-nowrap">Concession</p>
+              <p className="text-xs sm:text-sm md:text-base font-extrabold text-accent-purple mt-1 leading-tight whitespace-nowrap truncate">{fees.concession.toLocaleString('en-IN')}</p>
+              <span className="inline-block mt-1 text-[7.5px] sm:text-[8px] font-bold bg-[#EEF5FB] text-brand-blue px-1.5 sm:px-2 py-0.5 rounded-full leading-none whitespace-nowrap max-w-full truncate">
+                Rs {fees.concession.toLocaleString('en-IN')}
               </span>
             </div>
           </div>
 
           <button
             onClick={() => navigate('/settings/revenue-overview')}
-            className="w-full mt-4 py-3 border border-[#1597E5]/30 hover:bg-[#EEF5FB]/40 text-brand-blue rounded-btn font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
+            className="w-full mt-4 py-2.5 sm:py-3 border border-[#1597E5]/30 hover:bg-[#EEF5FB]/40 text-brand-blue rounded-btn font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
           >
             View detailed breakdown
             <FiArrowRight className="w-3.5 h-3.5" />

@@ -115,7 +115,7 @@ const BranchSettings = () => {
         {/* Branch Information Card matching Screenshot 2 */}
         <div className="bg-white rounded-[24px] border border-[#e2e8f0]/40 overflow-hidden card-shadow">
           {/* Header label banner */}
-          <div className="bg-[#EEF5FB]/40 px-6 py-4.5 border-b border-[#e2e8f0]/60">
+          <div className="bg-[#EEF5FB]/40 px-6 py-4 border-b border-[#e2e8f0]/60">
             <span className="text-[10px] font-extrabold text-secondaryText uppercase tracking-widest block">
               Branch Information
             </span>

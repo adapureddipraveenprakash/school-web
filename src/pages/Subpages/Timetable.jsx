@@ -165,7 +165,7 @@ const Timetable = () => {
                 <div
                   key={periodNum}
                   onClick={() => handleCellClick(activeDay, periodNum)}
-                  className={`bg-white rounded-[22px] p-4.5 card-shadow border border-[#e2e8f0]/40 flex items-center justify-between transition-all group ${
+                  className={`bg-white rounded-[22px] p-5 card-shadow border border-[#e2e8f0]/40 flex items-center justify-between transition-all group ${
                     isEditable ? 'cursor-pointer hover:border-[#1597E5]/30' : ''
                   }`}
                 >

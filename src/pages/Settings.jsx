@@ -30,7 +30,7 @@ const Settings = () => {
     else if (title === 'Audit Logs') navigate('/settings/audit-logs');
     else if (title === 'Student Records') navigate('/settings/global-students');
     else if (title === 'Global Reports') navigate('/settings/global-reports');
-    else if (title === 'Classes & Wings') navigate('/settings/class-fee-templates');
+    else if (title === 'Classes & Wings') navigate('/settings/classes');
     else if (title === 'About') setShowAbout(true);
     else {
       alert(`${title} configuration view simulated.`);

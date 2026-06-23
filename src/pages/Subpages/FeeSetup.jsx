@@ -274,9 +274,9 @@ const FeeSetup = () => {
             {/* Create class fee action button */}
             <button
               type="submit"
-              className="w-full py-4.5 bg-[#1597E5] hover:bg-[#00A1FF] text-white rounded-full font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-blue/15 transition-all cursor-pointer active:scale-95"
+              className="w-full py-4 bg-[#1597E5] hover:bg-[#00A1FF] text-white rounded-full font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-brand-blue/15 transition-all cursor-pointer active:scale-95"
             >
-              <HiOutlineDocumentText className="w-4.5 h-4.5" />
+              <HiOutlineDocumentText className="w-5 h-5" />
               <span>{editingId ? 'Save Class Fee' : 'Create Class Fee'}</span>
             </button>
           </form>
@@ -305,7 +305,7 @@ const FeeSetup = () => {
               {templates.map((tpl) => (
                 <div
                   key={tpl.id}
-                  className="bg-white rounded-[22px] p-4.5 card-shadow border border-[#e2e8f0]/40 flex justify-between items-center group hover:border-[#1597E5]/20 transition-all"
+                  className="bg-white rounded-[22px] p-5 card-shadow border border-[#e2e8f0]/40 flex justify-between items-center group hover:border-[#1597E5]/20 transition-all"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#EEF5FB] text-[#1597E5] flex items-center justify-center shrink-0">

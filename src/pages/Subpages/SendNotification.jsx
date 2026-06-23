@@ -1,50 +1,51 @@
-import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiSend, FiAlertCircle, FiCheckCircle, FiInfo, FiUsers, FiBriefcase } from 'react-icons/fi';
-import { HiOutlineUserGroup, HiOutlineBookOpen, HiOutlinePencil, HiOutlineExclamationTriangle } from 'react-icons/hi2';
+import { FiX, FiUser, FiBell, FiSend, FiSettings, FiPhone } from 'react-icons/fi';
+import { useApp } from '../../context/AppContext';
 
 const SendNotification = () => {
-  const { addNotification } = useApp();
   const navigate = useNavigate();
+  const { user, activeRole } = useApp();
 
-  const [title, setTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [targetType, setTargetType] = useState('ALL'); // 'ALL' | 'PARENT' | 'TEACHER' | 'STUDENT'
-  const [isHighPriority, setIsHighPriority] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
+  // Primary user fallback information to match user screenshots
+  const displayName = user?.role === 'PRINCIPAL' || activeRole === 'PRINCIPAL' ? (user?.name || 'B. Geetha') : 'B. Geetha';
+  const displayPhone = user?.role === 'PRINCIPAL' || activeRole === 'PRINCIPAL' ? (user?.phone || '9100046512') : '9100046512';
+  const displayRole = 'PRINCIPAL';
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title || !message) {
-      setError('Please fill in both the title and the message contents');
-      return;
+  const menuItems = [
+    {
+      title: 'My Profile',
+      subtitle: 'View and edit your details',
+      icon: <FiUser className="w-5 h-5" />,
+      iconColor: '#1597E5',
+      bgColor: '#EBF8FF',
+      path: '/settings/profile'
+    },
+    {
+      title: 'Notifications',
+      subtitle: 'Alerts and announcements',
+      icon: <FiBell className="w-5 h-5" />,
+      iconColor: '#FF9F1C',
+      bgColor: '#FFF8EE',
+      path: '/settings/notifications'
+    },
+    {
+      title: 'Send Notification',
+      subtitle: 'Broadcast to parents or staff',
+      icon: <FiSend className="w-5 h-5" />,
+      iconColor: '#1597E5',
+      bgColor: '#EBF8FF',
+      path: '/settings/post-notice'
+    },
+    {
+      title: 'Settings',
+      subtitle: 'App preferences',
+      icon: <FiSettings className="w-5 h-5" />,
+      iconColor: '#718096',
+      bgColor: '#EEF5FB',
+      path: '/settings'
     }
-    setError('');
-    
-    // Prefix with priority emoji if toggled
-    const finalTitle = isHighPriority ? `🔴 ${title}` : title;
-
-    addNotification({
-      title: finalTitle,
-      message,
-      targetRole: targetType, // ALL, PRINCIPAL, COORDINATOR, TEACHER, PARENT
-    });
-
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      navigate(-1);
-    }, 1500);
-  };
-
-  const targets = [
-    { key: 'ALL', label: 'All Recipients', icon: <FiUsers className="w-5 h-5" /> },
-    { key: 'PARENT', label: 'Parents Only', icon: <HiOutlineUserGroup className="w-5 h-5" /> },
-    { key: 'TEACHER', label: 'Teachers Only', icon: <FiBriefcase className="w-5 h-5" /> },
-    { key: 'STUDENT', label: 'Students (via Parents)', icon: <HiOutlineBookOpen className="w-5 h-5" /> },
   ];
 
   return (
@@ -53,141 +54,94 @@ const SendNotification = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.3 }}
-      className="p-4 md:p-8 pb-24 md:pb-12 max-w-5xl mx-auto space-y-6"
+      className="min-h-screen bg-[#EEF5FB] flex flex-col justify-between max-w-[640px] mx-auto animate-fade-in"
     >
-      {/* Header bar matching Screenshot 3 */}
-      <header className="flex items-center gap-4 py-2 border-b border-[#e2e8f0]/40 shrink-0">
-        <button
-          onClick={() => navigate(-1)}
-          className="p-1.5 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
-        >
-          <FiArrowLeft className="w-5 h-5" />
-        </button>
-        <div>
-          <h1 className="text-sm font-bold text-dark">Compose Notification</h1>
-          <p className="text-[10px] text-secondaryText font-medium mt-0.5">Broadcast alerts to school stakeholders</p>
-        </div>
-      </header>
+      <div>
+        {/* Top curved blue header card */}
+        <div className="relative rounded-b-[40px] bg-gradient-to-br from-[#1597E5] to-[#00A1FF] p-6 text-white pb-10 overflow-hidden shadow-lg">
+          {/* Floating decorative circles */}
+          <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10" />
+          <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5" />
 
-      {success && (
-        <div className="bg-[#E8F8F0] border border-[#23C16B]/20 rounded-xl p-3 flex items-center gap-2 text-xs text-accent-green font-bold">
-          <FiCheckCircle className="w-4 h-4 shrink-0" />
-          <span>Notification broadcasted successfully!</span>
-        </div>
-      )}
+          {/* Close Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 transition-all text-white cursor-pointer z-10"
+          >
+            <FiX className="w-5 h-5" />
+          </button>
 
-      {error && (
-        <div className="bg-accent-red/5 border border-accent-red/20 rounded-xl p-3 flex items-center gap-2 text-xs text-accent-red font-bold">
-          <FiAlertCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-        {/* Left Column: Broadcast Target Selection */}
-        <div className="space-y-4 md:col-span-1">
-          <span className="text-[10px] font-extrabold text-secondaryText uppercase tracking-widest px-1 block">
-            BROADCAST TARGET
-          </span>
-
-          <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-            {targets.map((t) => {
-              const isSelected = targetType === t.key;
-              return (
-                <div
-                  key={t.key}
-                  onClick={() => setTargetType(t.key)}
-                  className={`bg-white p-4 rounded-[20px] border flex flex-col justify-center items-center text-center cursor-pointer transition-all card-shadow ${
-                    isSelected
-                      ? 'border-[#1597E5] ring-2 ring-[#1597E5]/10 text-brand-blue'
-                      : 'border-[#e2e8f0]/40 text-secondaryText hover:border-brand-blue/30'
-                  }`}
-                >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2.5 ${
-                    isSelected ? 'bg-brand-blue/10 text-brand-blue' : 'bg-[#EEF5FB] text-secondaryText'
-                  }`}>
-                    {t.icon}
-                  </div>
-                  <span className="text-[10px] font-extrabold leading-tight">{t.label}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Right Column: Alert Details Composition & Broadcast Button */}
-        <div className="md:col-span-2 space-y-6">
-          <div className="bg-white rounded-[24px] border border-[#e2e8f0]/40 p-6 card-shadow space-y-5">
-            <span className="text-[10px] font-extrabold text-secondaryText uppercase tracking-widest px-1 block -mb-1">
-              ALERT DETAILS
-            </span>
-
-            {/* Notification Title rounded-full input */}
-            <div className="relative">
-              <input
-                type="text"
-                required
-                placeholder="Notification Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 bg-white border border-[#e2e8f0] rounded-full card-shadow-inset focus:outline-none focus:border-brand-blue/60 text-xs font-semibold text-dark placeholder:text-secondaryText"
-              />
-              <HiOutlinePencil className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-secondaryText" />
+          {/* Profile Details */}
+          <div className="flex flex-col gap-4 mt-4 relative z-10">
+            {/* Avatar circle */}
+            <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white flex items-center justify-center text-2xl font-black font-sans shadow-inner select-none">
+              BG
             </div>
-
-            {/* Notification Message textarea */}
-            <textarea
-              required
-              rows="6"
-              placeholder="Type your message details here..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="w-full px-5 py-4 bg-white border border-[#e2e8f0] rounded-[20px] card-shadow-inset focus:outline-none focus:border-brand-blue/60 text-xs font-semibold text-dark resize-none placeholder:text-secondaryText"
-            />
-
-            {/* Mark as High Priority Toggle Switch */}
-            <div className="flex items-center justify-between p-4 bg-[#EEF5FB]/35 border border-[#e2e8f0]/30 rounded-[20px]">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white border border-[#e2e8f0]/40 flex items-center justify-center text-accent-orange shadow-sm">
-                  <HiOutlineExclamationTriangle className="w-5 h-5 text-accent-orange" />
-                </div>
-                <div>
-                  <p className="text-xs font-extrabold text-dark leading-snug">Mark as High Priority</p>
-                  <p className="text-[9px] text-secondaryText font-semibold mt-0.5">Prefixes title with 🔴 priority indicator</p>
-                </div>
+            
+            <div className="space-y-1">
+              <h3 className="text-2xl font-bold tracking-tight">{displayName}</h3>
+              
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/25 border border-white/30 rounded-full text-[10px] font-black uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 bg-[#23C16B] rounded-full animate-pulse" />
+                {displayRole} • ACTIVE
               </div>
 
-              {/* Custom Toggle Switch */}
-              <label className="relative inline-flex items-center cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={isHighPriority}
-                  onChange={(e) => setIsHighPriority(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue" />
-              </label>
-            </div>
-
-            {/* Info panel */}
-            <div className="flex gap-3 p-4 bg-[#EEF5FB] border border-[#1597E5]/15 rounded-[20px] text-[10px] leading-relaxed text-brand-blue font-bold">
-              <FiInfo className="w-4 h-4 shrink-0 mt-0.5 text-brand-blue" />
-              <p>
-                Notifications appear in each recipient's Notification Center immediately. Delivery is immediate — all matched users in your branch receive it.
-              </p>
+              <div className="text-xs font-bold text-white/90 pt-1.5 flex items-center gap-1.5">
+                <FiPhone className="w-3.5 h-3.5 text-white/80" />
+                <span>+91 {displayPhone}</span>
+              </div>
             </div>
           </div>
-
-          {/* Broadcast button */}
-          <button
-            type="submit"
-            className="w-full py-4 bg-[#1597E5] hover:bg-brand-secondary text-white rounded-full font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-brand-blue/35 transition-all cursor-pointer active:scale-95"
-          >
-            <FiSend className="w-4 h-4" />
-            Broadcast Notification
-          </button>
         </div>
-      </form>
+
+        {/* ACCOUNT Section */}
+        <div className="p-6 space-y-4">
+          <p className="text-[11px] font-bold text-secondaryText uppercase tracking-widest mb-1 px-1">
+            Account
+          </p>
+
+          <div className="space-y-3">
+            {menuItems.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => navigate(item.path)}
+                className="w-full bg-white flex items-center justify-between p-4 rounded-[24px] border border-[#e2e8f0]/45 shadow-sm hover:border-[#1597E5]/35 hover:shadow-md transition-all text-left text-dark group cursor-pointer active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-4">
+                  {/* Icon Wrapper */}
+                  <div
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center border border-transparent transition-colors duration-300"
+                    style={{ backgroundColor: item.bgColor, color: item.iconColor }}
+                  >
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-sm font-extrabold text-dark group-hover:text-[#1597E5] transition-colors">
+                      {item.title}
+                    </p>
+                    <p className="text-[10px] text-secondaryText font-bold mt-0.5">
+                      {item.subtitle}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Arrow */}
+                <span className="text-[#A0AEC0] text-sm font-extrabold group-hover:translate-x-0.5 group-hover:text-dark transition-all select-none">
+                  &gt;
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="p-6 text-center select-none mt-auto">
+        <p className="text-[10px] font-bold text-secondaryText flex items-center justify-center gap-1.5">
+          <span className="w-1.5 h-1.5 bg-[#1597E5] rounded-full" />
+          NSRIT Connect ERP • v1.0.0
+        </p>
+      </div>
     </motion.div>
   );
 };

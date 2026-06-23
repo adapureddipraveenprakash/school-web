@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiPlus, FiMapPin, FiUser, FiCalendar, FiArrowRight } from 'react-icons/fi';
 import { BiBuildingHouse } from 'react-icons/bi';
@@ -7,6 +8,7 @@ import CreateBranchModal from './Subpages/CreateBranch';
 
 const Schools = () => {
   const { branches, currentBranchContext, setCurrentBranchContext, addLog } = useApp();
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [isAddOpen, setIsAddOpen] = useState(false);
 
@@ -22,6 +24,7 @@ const Schools = () => {
   const handleSelectBranch = (branch) => {
     setCurrentBranchContext(branch);
     addLog(`Switched branch context to ${branch.name} from Schools page`);
+    navigate('/settings/branch-analytics');
   };
 
   return (
@@ -81,7 +84,8 @@ const Schools = () => {
         {filteredBranches.map((branch) => (
           <div
             key={branch.id}
-            className="bg-white rounded-[24px] border border-[#e2e8f0]/40 p-6 card-shadow flex flex-col justify-between hover:border-brand-blue/30 transition-all relative group"
+            onClick={() => handleSelectBranch(branch)}
+            className="bg-white rounded-[24px] border border-[#e2e8f0]/40 p-6 card-shadow flex flex-col justify-between hover:border-brand-blue/30 hover:shadow-lg transition-all relative group cursor-pointer active:scale-[0.99]"
           >
             {/* Header: icon, title, active pill */}
             <div className="flex justify-between items-start">
@@ -111,34 +115,30 @@ const Schools = () => {
                 </div>
               </div>
 
-              {/* Action Button: Mimic Context */}
-              <button
-                onClick={() => handleSelectBranch(branch)}
-                className="opacity-0 group-hover:opacity-100 py-1.5 px-3 bg-brand-blue/10 hover:bg-brand-blue text-brand-blue hover:text-white rounded-lg font-bold text-[10px] flex items-center gap-1 transition-all cursor-pointer"
-              >
-                Mimic Context
-                <FiArrowRight className="w-3 h-3" />
-              </button>
+              {/* Arrow details indicator */}
+              <div className="p-2 text-brand-blue rounded-full bg-brand-blue/5 group-hover:bg-brand-blue group-hover:text-white transition-all">
+                <FiArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </div>
             </div>
 
             {/* Stat Row */}
-            <div className="grid grid-cols-3 gap-3 my-6">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 my-5 sm:my-6">
               {/* Students count block */}
-              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-3 rounded-2xl text-center border border-[#e2e8f0]/20">
-                <p className="text-base font-extrabold text-brand-blue">{branch.studentsCount}</p>
-                <p className="text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Students</p>
+              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-2 sm:p-3 rounded-2xl text-center border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-sm sm:text-base font-extrabold text-brand-blue leading-none">{branch.studentsCount}</p>
+                <p className="text-[8px] sm:text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Students</p>
               </div>
 
               {/* Faculty count block */}
-              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-3 rounded-2xl text-center border border-[#e2e8f0]/20">
-                <p className="text-base font-extrabold text-brand-blue">{branch.facultyCount}</p>
-                <p className="text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Faculty & Staff</p>
+              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-2 sm:p-3 rounded-2xl text-center border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-sm sm:text-base font-extrabold text-brand-blue leading-none">{branch.facultyCount}</p>
+                <p className="text-[8px] sm:text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Faculty & Staff</p>
               </div>
 
               {/* Coordinator count block */}
-              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-3 rounded-2xl text-center border border-[#e2e8f0]/20">
-                <p className="text-base font-extrabold text-accent-purple">{branch.coordinatorsCount}</p>
-                <p className="text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-0.5">Coordinators</p>
+              <div className="bg-[#EEF5FB] hover:bg-[#1597E5]/5 transition-colors p-2 sm:p-3 rounded-2xl text-center border border-[#e2e8f0]/20 min-w-0">
+                <p className="text-sm sm:text-base font-extrabold text-accent-purple leading-none">{branch.coordinatorsCount}</p>
+                <p className="text-[8px] sm:text-[9px] font-bold text-secondaryText uppercase tracking-wider mt-1 whitespace-nowrap leading-none">Coordinators</p>
               </div>
             </div>
 

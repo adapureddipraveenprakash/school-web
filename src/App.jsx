@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React,{ useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useApp } from './context/AppContext';
 import { AnimatePresence } from 'framer-motion';
@@ -28,19 +28,33 @@ import GlobalReports from './pages/Subpages/GlobalReports';
 import MyProfile from './pages/Subpages/MyProfile';
 import Notifications from './pages/Subpages/Notifications';
 import SendNotification from './pages/Subpages/SendNotification';
+import PostNotice from './pages/Subpages/PostNotice';
 import CreateStudent from './pages/Subpages/CreateStudent';
+import CreateFeePlan from './pages/Subpages/CreateFeePlan';
 import BulkUpload from './pages/Subpages/BulkUpload';
 import Teachers from './pages/Subpages/Teachers';
 import ClassTeachers from './pages/Subpages/ClassTeachers';
 import AttendanceOverview from './pages/Subpages/AttendanceOverview';
 import FeeOverview from './pages/Subpages/FeeOverview';
+import FeePlans from './pages/Subpages/FeePlans';
+import FeeLedger from './pages/Subpages/FeeLedger';
 import BranchAnalytics from './pages/Subpages/BranchAnalytics';
 import BranchSettings from './pages/Subpages/BranchSettings';
+import EditBranch from './pages/Subpages/EditBranch';
 import Timetable from './pages/Subpages/Timetable';
 import PromotionManagement from './pages/Subpages/PromotionManagement';
 import Suggestions from './pages/Subpages/Suggestions';
 import Homework from './pages/Subpages/Homework';
-
+import Coordinators from './pages/Subpages/Coordinators';
+import Accountants from './pages/Subpages/Accountants';
+import Sections from './pages/Subpages/Sections';
+import ClassManagement from './pages/Subpages/ClassManagement';
+import GraduateStudents from './pages/Subpages/GraduateStudents';
+import HolidayManagement from './pages/Subpages/HolidayManagement';
+import AcademicYear from './pages/Subpages/AcademicYear';
+import FeeCollection from './pages/Subpages/FeeCollection';
+import FeeReports from './pages/Subpages/FeeReports';
+import FeeHistory from './pages/Subpages/FeeHistory';
 
 
 
@@ -125,18 +139,33 @@ const AnimatedRoutes = () => {
           <Route path="/settings/profile" element={<MyProfile />} />
           <Route path="/settings/notifications" element={<Notifications />} />
           <Route path="/settings/send-notification" element={<SendNotification />} />
+          <Route path="/settings/post-notice" element={<PostNotice />} />
           <Route path="/settings/create-student" element={<CreateStudent />} />
           <Route path="/settings/bulk-upload" element={<BulkUpload />} />
           <Route path="/settings/teachers" element={<Teachers />} />
           <Route path="/settings/class-teachers" element={<ClassTeachers />} />
           <Route path="/settings/attendance-overview" element={<AttendanceOverview />} />
           <Route path="/settings/fee-overview" element={<FeeOverview />} />
+          <Route path="/settings/fee-plans" element={<FeePlans />} />
+          <Route path="/settings/create-fee-plan" element={<CreateFeePlan />} />
+          <Route path="/settings/ledger" element={<FeeLedger />} />
           <Route path="/settings/branch-analytics" element={<BranchAnalytics />} />
           <Route path="/settings/branch-settings" element={<BranchSettings />} />
+          <Route path="/settings/edit-branch" element={<EditBranch />} />
           <Route path="/settings/timetable" element={<Timetable />} />
           <Route path="/settings/promotions" element={<PromotionManagement />} />
           <Route path="/settings/suggestions" element={<Suggestions />} />
           <Route path="/settings/homework" element={<Homework />} />
+          <Route path="/settings/coordinators" element={<Coordinators />} />
+          <Route path="/settings/accountants" element={<Accountants />} />
+          <Route path="/settings/sections" element={<Sections />} />
+          <Route path="/settings/classes" element={<ClassManagement />} />
+          <Route path="/settings/graduate-students" element={<GraduateStudents />} />
+          <Route path="/settings/holidays" element={<HolidayManagement />} />
+          <Route path="/settings/academic-year" element={<AcademicYear />} />
+          <Route path="/settings/collection" element={<FeeCollection />} />
+          <Route path="/settings/fee-reports" element={<FeeReports />} />
+          <Route path="/settings/fee-history" element={<FeeHistory />} />
           
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
