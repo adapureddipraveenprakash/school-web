@@ -84,6 +84,173 @@ const Timetable = () => {
 
   const isEditable = activeRole === 'MAIN_ADMIN' || activeRole === 'PRINCIPAL' || activeRole === 'COORDINATOR';
 
+  if (activeRole === 'PARENT') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.3 }}
+        className="p-4 md:p-8 space-y-6 pb-28 max-w-7xl mx-auto relative select-none animate-fade-in"
+      >
+        {/* Top Header Bar */}
+        <header className="flex items-center justify-between py-2 border-b border-[#e2e8f0]/40 shrink-0">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-1.5 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
+          >
+            <FiArrowLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-sm font-bold text-dark pr-8 mx-auto">Class Timetable</h1>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          {/* Column 1 */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Blue Banner Card */}
+            <div className="relative rounded-[28px] bg-gradient-to-br from-[#00a6ff] to-[#0077ff] p-6 text-white card-shadow overflow-hidden space-y-5">
+              <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10" />
+              <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5" />
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/25 flex items-center justify-center text-white shrink-0">
+                  <FiClock className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-black tracking-tight">Class Timetable</h2>
+                  <p className="text-[11px] text-white/80 font-bold mt-0.5">Class: 1-A · PRANEETH VARMA</p>
+                </div>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-2 pt-4 border-t border-white/10 text-center font-sans">
+                <div>
+                  <p className="text-base font-black">0</p>
+                  <p className="text-[8px] text-white/70 font-black uppercase tracking-wider">School Days</p>
+                </div>
+                <div>
+                  <p className="text-base font-black">0</p>
+                  <p className="text-[8px] text-white/70 font-black uppercase tracking-wider">Total Periods</p>
+                </div>
+                <div>
+                  <p className="text-base font-black">0</p>
+                  <p className="text-[8px] text-white/70 font-black uppercase tracking-wider">Periods/Day</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Day Selector Pills */}
+            <div className="flex flex-wrap gap-2 select-none">
+              {['All', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => (
+                <button
+                  key={idx}
+                  className={`px-4 py-2 rounded-full text-[10px] font-extrabold border transition-all ${
+                    day === 'All'
+                      ? 'bg-brand-blue border-brand-blue text-white shadow-md shadow-brand-blue/20'
+                      : 'bg-white border-[#e2e8f0] text-secondaryText hover:bg-slate-50'
+                  }`}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Column 2 */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-[32px] border border-[#e2e8f0]/40 p-12 card-shadow text-center flex flex-col items-center justify-center space-y-4 min-h-[300px]">
+              <div className="w-20 h-20 rounded-full bg-[#EBF8FF] border border-[#BEE3F8] flex items-center justify-center text-[#3182CE] relative shadow-inner">
+                <div className="absolute inset-[-4px] rounded-full border border-brand-blue/5" />
+                <svg className="w-8 h-8 text-[#1597E5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div className="space-y-1.5 max-w-[280px]">
+                <h4 className="text-sm font-extrabold text-dark">No timetable yet</h4>
+                <p className="text-[10px] text-[#A0AEC0] font-semibold leading-relaxed">
+                  The school timetable will appear here once the principal sets it up.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+  if (activeRole === 'TEACHER' || activeRole === 'CLASS_TEACHER') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.3 }}
+        className="p-4 md:p-8 space-y-6 pb-20 max-w-[640px] mx-auto relative select-none animate-fade-in"
+      >
+        {/* Top Header Bar */}
+        <header className="flex items-center justify-between py-2 border-b border-[#e2e8f0]/40 shrink-0">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-1.5 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
+          >
+            <FiArrowLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-sm font-bold text-dark pr-8 mx-auto font-sans">My Timetable</h1>
+        </header>
+
+        {/* Blue Header Card */}
+        <div className="relative rounded-[28px] bg-gradient-to-br from-[#1597E5] to-[#00A1FF] p-6 text-white card-shadow overflow-hidden">
+          <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10 pointer-events-none" />
+          <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
+
+          <div className="flex items-center gap-3.5 mb-1.5 relative z-10 select-none">
+            {/* Clock Icon */}
+            <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center border border-white/15 shrink-0">
+              <FiClock className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold">My Timetable</h2>
+              <p className="text-[10px] text-white/70 font-semibold uppercase tracking-wider mt-0.5">0 assigned periods this week</p>
+            </div>
+          </div>
+
+          {/* Days selector inside header */}
+          <div className="flex gap-2 mt-5 overflow-x-auto no-scrollbar relative z-10 select-none scrollbar-none">
+            {['All', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day, idx) => (
+              <button
+                key={idx}
+                className={`px-5 py-1.5 rounded-full text-[10px] font-extrabold transition-all whitespace-nowrap ${
+                  day === 'All'
+                    ? 'bg-white text-[#1597E5] shadow-sm'
+                    : 'bg-white/15 text-white/95 border border-white/5'
+                }`}
+              >
+                {day}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Empty State Card */}
+        <div className="bg-white rounded-[32px] border border-[#e2e8f0]/40 p-12 card-shadow text-center flex flex-col items-center justify-center space-y-5 min-h-[300px]">
+          {/* Empty state calendar icon with ring */}
+          <div className="w-16 h-16 rounded-full bg-[#EBF8FF] flex items-center justify-center text-[#1597E5] relative shadow-inner">
+            <div className="absolute inset-[-6px] rounded-full border border-[#1597E5]/10" />
+            <svg className="w-7 h-7 text-[#1597E5]" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+
+          <div className="space-y-2 max-w-[280px]">
+            <h3 className="text-sm font-extrabold text-dark">No periods assigned</h3>
+            <p className="text-xs text-[#A0AEC0] font-semibold leading-relaxed">
+              Your timetable will appear here once the principal has assigned your classes.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   const handleCellClick = (day, periodNum) => {
     if (!isEditable) return;
     const current = timetable[day]?.[periodNum] || { subject: '', teacher: '', room: '' };

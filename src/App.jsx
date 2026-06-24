@@ -33,6 +33,7 @@ import CreateStudent from './pages/Subpages/CreateStudent';
 import CreateFeePlan from './pages/Subpages/CreateFeePlan';
 import BulkUpload from './pages/Subpages/BulkUpload';
 import Teachers from './pages/Subpages/Teachers';
+import CreateTeacher from './pages/Subpages/CreateTeacher';
 import ClassTeachers from './pages/Subpages/ClassTeachers';
 import AttendanceOverview from './pages/Subpages/AttendanceOverview';
 import FeeOverview from './pages/Subpages/FeeOverview';
@@ -55,6 +56,16 @@ import AcademicYear from './pages/Subpages/AcademicYear';
 import FeeCollection from './pages/Subpages/FeeCollection';
 import FeeReports from './pages/Subpages/FeeReports';
 import FeeHistory from './pages/Subpages/FeeHistory';
+import TeacherStudents from './pages/Subpages/TeacherStudents';
+import Expenses from './pages/Subpages/Expenses';
+import RecordPayment from './pages/Subpages/RecordPayment';
+import BranchReports from './pages/Subpages/BranchReports';
+import Events from './pages/Subpages/Events';
+import CorrectAttendance from './pages/Subpages/CorrectAttendance';
+import TakeAttendance from './pages/Subpages/TakeAttendance';
+import NoticeBoard from './pages/Subpages/NoticeBoard';
+
+
 
 
 
@@ -143,8 +154,12 @@ const AnimatedRoutes = () => {
           <Route path="/settings/create-student" element={<CreateStudent />} />
           <Route path="/settings/bulk-upload" element={<BulkUpload />} />
           <Route path="/settings/teachers" element={<Teachers />} />
+          <Route path="/settings/create-teacher" element={<CreateTeacher />} />
           <Route path="/settings/class-teachers" element={<ClassTeachers />} />
+          <Route path="/settings/teacher-students" element={<TeacherStudents />} />
           <Route path="/settings/attendance-overview" element={<AttendanceOverview />} />
+          <Route path="/settings/correct-attendance" element={<CorrectAttendance />} />
+          <Route path="/settings/student-management" element={<StudentRecords />} />
           <Route path="/settings/fee-overview" element={<FeeOverview />} />
           <Route path="/settings/fee-plans" element={<FeePlans />} />
           <Route path="/settings/create-fee-plan" element={<CreateFeePlan />} />
@@ -166,6 +181,12 @@ const AnimatedRoutes = () => {
           <Route path="/settings/collection" element={<FeeCollection />} />
           <Route path="/settings/fee-reports" element={<FeeReports />} />
           <Route path="/settings/fee-history" element={<FeeHistory />} />
+          <Route path="/settings/expenses" element={<Expenses />} />
+          <Route path="/settings/record-payment" element={<RecordPayment />} />
+          <Route path="/settings/branch-reports" element={<BranchReports />} />
+          <Route path="/settings/events" element={<Events />} />
+          <Route path="/settings/take-attendance" element={<TakeAttendance />} />
+          <Route path="/settings/notice-board" element={<NoticeBoard />} />
           
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

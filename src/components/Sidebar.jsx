@@ -1,27 +1,62 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FiGrid, FiUsers, FiSettings } from 'react-icons/fi';
-import { BiBuildingHouse } from 'react-icons/bi';
+import { FiGrid, FiUsers, FiSettings, FiHome, FiCalendar, FiBell, FiUser, FiDollarSign, FiLayers } from 'react-icons/fi';
+import { BiBuildingHouse, BiReceipt } from 'react-icons/bi';
 import { HiOutlinePresentationChartLine } from 'react-icons/hi2';
 import { useApp } from '../context/AppContext';
 
 const Sidebar = () => {
   const { logout, activeRole } = useApp();
 
-  const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: <FiGrid className="w-5 h-5" /> },
-    { name: 'Schools', path: '/schools', icon: <BiBuildingHouse className="w-5 h-5" /> },
-    { name: 'Users', path: '/users', icon: <FiUsers className="w-5 h-5" /> },
-    { name: 'Reports', path: '/reports', icon: <HiOutlinePresentationChartLine className="w-5 h-5" /> },
-    { name: 'Settings', path: '/settings', icon: <FiSettings className="w-5 h-5" /> },
-  ];
-
-  const filteredItems = menuItems.filter(item => {
-    if (activeRole !== 'MAIN_ADMIN' && item.name !== 'Dashboard') {
-      return false;
+  const filteredItems = (() => {
+    if (activeRole === 'COORDINATOR') {
+      return [
+        { name: 'Dashboard', path: '/dashboard', icon: <FiGrid className="w-5 h-5" /> },
+        { name: 'Classes', path: '/settings/classes', icon: <FiLayers className="w-5 h-5" /> },
+        { name: 'Attendance', path: '/settings/attendance-overview', icon: <FiCalendar className="w-5 h-5" /> },
+        { name: 'Events', path: '/settings/events', icon: <FiCalendar className="w-5 h-5" /> },
+        { name: 'Profile', path: '/settings/profile', icon: <FiUser className="w-5 h-5" /> },
+      ];
     }
-    return true;
-  });
+    if (activeRole === 'ACCOUNTANT') {
+      return [
+        { name: 'Dashboard', path: '/dashboard', icon: <FiGrid className="w-5 h-5" /> },
+        { name: 'Fee Collection', path: '/settings/collection', icon: <BiReceipt className="w-5 h-5" /> },
+        { name: 'Expenses', path: '/settings/expenses', icon: <FiDollarSign className="w-5 h-5" /> },
+        { name: 'Reports', path: '/settings/fee-reports', icon: <HiOutlinePresentationChartLine className="w-5 h-5" /> },
+        { name: 'Profile', path: '/settings/profile', icon: <FiUser className="w-5 h-5" /> },
+      ];
+    }
+    if (activeRole === 'PARENT') {
+      return [
+        { name: 'Home', path: '/dashboard', icon: <FiHome className="w-5 h-5" /> },
+        { name: 'Attendance', path: '/settings/attendance-overview', icon: <FiCalendar className="w-5 h-5" /> },
+        { name: 'Notifications', path: '/settings/notifications', icon: <FiBell className="w-5 h-5" /> },
+        { name: 'Profile', path: '/settings/profile', icon: <FiUser className="w-5 h-5" /> },
+        { name: 'Students', path: '/settings/global-students', icon: <FiUsers className="w-5 h-5" /> },
+      ];
+    }
+    if (activeRole === 'TEACHER' || activeRole === 'CLASS_TEACHER') {
+      return [
+        { name: 'Home', path: '/dashboard', icon: <FiGrid className="w-5 h-5" /> },
+        { name: 'Students', path: '/settings/teacher-students', icon: <FiUsers className="w-5 h-5" /> },
+        { name: 'Notifications', path: '/settings/notifications', icon: <FiBell className="w-5 h-5" /> },
+        { name: 'Profile', path: '/settings/profile', icon: <FiUser className="w-5 h-5" /> },
+      ];
+    }
+    return [
+      { name: 'Dashboard', path: '/dashboard', icon: <FiGrid className="w-5 h-5" /> },
+      { name: 'Schools', path: '/schools', icon: <BiBuildingHouse className="w-5 h-5" /> },
+      { name: 'Users', path: '/users', icon: <FiUsers className="w-5 h-5" /> },
+      { name: 'Reports', path: '/reports', icon: <HiOutlinePresentationChartLine className="w-5 h-5" /> },
+      { name: 'Settings', path: '/settings', icon: <FiSettings className="w-5 h-5" /> },
+    ].filter(item => {
+      if (activeRole !== 'MAIN_ADMIN' && item.name !== 'Dashboard') {
+        return false;
+      }
+      return true;
+    });
+  })();
 
   return (
     <aside className="hidden md:flex flex-col w-72 bg-white border-r border-[#e2e8f0] h-screen sticky top-0 py-6 px-4 shrink-0 z-20">

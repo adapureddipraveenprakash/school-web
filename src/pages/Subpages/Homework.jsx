@@ -1,44 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiPlus, FiSend, FiBook, FiFolder, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiPlusCircle, FiFileText, FiCheckCircle, FiHelpCircle, FiCalendar } from 'react-icons/fi';
 
 const Homework = () => {
   const navigate = useNavigate();
-  const [homeworks, setHomeworks] = useState([
-    { id: 1, title: 'Maths exercise 4.2 solving', section: 'Class 5-A', subject: 'Maths', date: '21 Jun 2026', desc: 'Complete questions 1 to 10 from page 45 and upload the solved worksheet.' },
-    { id: 2, title: 'Telugu grammar lesson 2 reading', section: 'Class 7-A', subject: 'Telugu', date: '19 Jun 2026', desc: 'Read Telugu chapter 2 grammar section and write 10 difficult terms.' }
-  ]);
+  const [activeTab, setActiveTab] = useState('Pending');
 
-  const [title, setTitle] = useState('');
-  const [section, setSection] = useState('Class 5-A');
-  const [subject, setSubject] = useState('Maths');
-  const [desc, setDesc] = useState('');
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title || !desc) return;
-
-    const newHomework = {
-      id: Date.now(),
-      title,
-      section,
-      subject,
-      date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      desc
-    };
-
-    setHomeworks([newHomework, ...homeworks]);
-    setTitle('');
-    setDesc('');
-    setSuccess(true);
-    setTimeout(() => setSuccess(false), 2000);
-  };
-
-  const handleDelete = (id) => {
-    setHomeworks(homeworks.filter((h) => h.id !== id));
-  };
+  const tabs = ['Pending', 'Submitted', 'Graded'];
 
   return (
     <motion.div
@@ -46,141 +15,107 @@ const Homework = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.3 }}
-      className="p-4 md:p-8 pb-20 md:pb-8 max-w-5xl mx-auto space-y-6"
+      className="p-4 md:p-8 space-y-6 pb-20 max-w-[640px] mx-auto relative select-none animate-fade-in"
     >
-      {/* Centered Page Header */}
-      <div className="relative flex items-center justify-between py-2 border-b border-[#e2e8f0]/40 shrink-0">
+      {/* Top Header Bar */}
+      <header className="flex items-center justify-between py-2 border-b border-[#e2e8f0]/40 shrink-0">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
+          className="p-1.5 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
         >
           <FiArrowLeft className="w-5 h-5" />
         </button>
-        <h1 className="text-sm font-extrabold text-dark tracking-tight absolute left-1/2 -translate-x-1/2">
-          Homework Assignments
-        </h1>
-        <div className="w-9 h-9" />
-      </div>
+        <h1 className="text-sm font-bold text-dark pr-8 mx-auto font-sans">Homework</h1>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Left Column - Submission Form */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-[24px] p-6 card-shadow border border-[#e2e8f0]/40 space-y-4">
-            <h3 className="text-sm font-extrabold text-dark flex items-center gap-1.5">
-              <FiBook className="w-4 h-4 text-brand-blue" />
-              Create Homework Assignment
-            </h3>
+      {/* Blue Header Card */}
+      <div className="relative rounded-[28px] bg-gradient-to-br from-[#1597E5] to-[#00A1FF] p-6 text-white card-shadow overflow-hidden">
+        <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10 pointer-events-none" />
+        <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
 
-            {success ? (
-              <div className="bg-[#E8F8F0] border border-[#23C16B]/25 rounded-xl p-4 flex items-center gap-2 text-xs text-accent-green font-bold">
-                Homework assignment created and published to section feeds!
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-secondaryText uppercase tracking-wider block">
-                      Target Section
-                    </label>
-                    <select
-                      value={section}
-                      onChange={(e) => setSection(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#EEF5FB]/40 border border-[#e2e8f0] rounded-[14px] text-xs font-semibold text-dark focus:outline-none focus:border-brand-blue"
-                    >
-                      <option>Class 5-A</option>
-                      <option>Class 7-A</option>
-                      <option>Class 6-B</option>
-                      <option>Class 4-B</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-secondaryText uppercase tracking-wider block">
-                      Subject
-                    </label>
-                    <select
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      className="w-full px-4 py-2.5 bg-[#EEF5FB]/40 border border-[#e2e8f0] rounded-[14px] text-xs font-semibold text-dark focus:outline-none focus:border-brand-blue"
-                    >
-                      <option>Maths</option>
-                      <option>Telugu</option>
-                      <option>English</option>
-                      <option>Science</option>
-                      <option>Social</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-secondaryText uppercase tracking-wider block">
-                    Assignment Title
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="e.g. Exercise 4.2 Worksheet"
-                    className="w-full px-4 py-2.5 bg-[#EEF5FB]/40 border border-[#e2e8f0] rounded-[14px] text-xs font-semibold text-dark focus:outline-none focus:border-brand-blue"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-secondaryText uppercase tracking-wider block">
-                    Instructions / Description
-                  </label>
-                  <textarea
-                    rows="4"
-                    required
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
-                    placeholder="Enter exercise numbers, criteria, or worksheets description..."
-                    className="w-full px-4 py-2.5 bg-[#EEF5FB]/40 border border-[#e2e8f0] rounded-[14px] text-xs font-semibold text-dark focus:outline-none focus:border-brand-blue resize-none"
-                  />
-                </div>
-
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="px-5 py-2.5 bg-brand-blue hover:bg-brand-secondary text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-md shadow-brand-blue/10 active:scale-95 cursor-pointer"
-                  >
-                    <FiSend className="w-4 h-4" /> Publish Homework
-                  </button>
-                </div>
-              </form>
-            )}
+        <div className="flex items-center gap-3.5 mb-1.5 relative z-10 select-none">
+          {/* Book Icon */}
+          <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center border border-white/15 shrink-0">
+            <svg className="w-5.5 h-5.5 text-white" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold">Homework</h2>
+            <p className="text-[10px] text-white/70 font-semibold uppercase tracking-wider mt-0.5">Manage assignments for your students</p>
           </div>
         </div>
+      </div>
 
-        {/* Right Column - Recently Posted logs */}
-        <div className="space-y-6">
-          <div className="bg-white rounded-[24px] border border-[#e2e8f0]/40 p-6 card-shadow space-y-4">
-            <span className="text-[10px] font-extrabold text-secondaryText uppercase tracking-widest block flex items-center gap-1">
-              <FiFolder className="w-3.5 h-3.5" /> Recent Posts ({homeworks.length})
-            </span>
+      {/* Tab switcher */}
+      <div className="bg-white border border-[#e2e8f0]/45 p-1.5 rounded-[20px] flex select-none">
+        {tabs.map((tab) => {
+          const isSelected = activeTab === tab;
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex-1 py-2.5 text-xs font-black rounded-[16px] transition-all cursor-pointer ${
+                isSelected
+                  ? 'bg-[#1597E5] text-white shadow-sm'
+                  : 'text-secondaryText hover:text-dark font-bold'
+              }`}
+            >
+              {tab}
+            </button>
+          );
+        })}
+      </div>
 
-            <div className="space-y-4 divide-y divide-[#e2e8f0]/60 max-h-[400px] overflow-y-auto pr-1">
-              {homeworks.map((h, idx) => (
-                <div key={h.id} className={`pt-4 ${idx === 0 ? 'pt-0' : ''}`}>
-                  <div className="flex justify-between items-start">
-                    <span className="text-[8px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded-full select-none">
-                      {h.section}
-                    </span>
-                    <button
-                      onClick={() => handleDelete(h.id)}
-                      className="p-1 text-secondaryText/60 hover:text-accent-red rounded transition-colors"
-                    >
-                      <FiTrash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  <h4 className="text-xs font-bold text-dark mt-1.5">{h.title}</h4>
-                  <p className="text-[9px] text-[#1597E5] font-extrabold mt-0.5">{h.subject} · {h.date}</p>
-                  <p className="text-[10px] text-secondaryText mt-1.5 leading-relaxed">{h.desc}</p>
-                </div>
-              ))}
+      {/* Main Feature Card */}
+      <div className="bg-white rounded-[32px] border border-[#e2e8f0]/40 p-10 card-shadow text-center flex flex-col items-center justify-center space-y-5">
+        {/* Rocket Icon */}
+        <div className="w-16 h-16 rounded-full bg-[#EBF8FF] flex items-center justify-center text-[#1597E5] relative shadow-inner">
+          <div className="absolute inset-[-6px] rounded-full border border-[#1597E5]/10" />
+          <svg className="w-7 h-7 text-[#1597E5]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.5 8.5L19 5m0 0l-3.5 1.5M19 5v4m-8.5 7.5L5 21m0 0l1.5-3.5M5 21v-4M8.5 8.5C6.5 10.5 6 13 6 13s2.5-.5 4.5-2.5 2.5-4.5 2.5-4.5-2.5 0-4.5 2.5z"></path>
+          </svg>
+        </div>
+
+        <div className="space-y-2 max-w-[280px]">
+          <h3 className="text-sm font-extrabold text-dark">Homework Management</h3>
+          <p className="text-xs text-[#A0AEC0] font-semibold leading-relaxed">
+            The homework module is coming soon. Assign tasks, track submissions, and grade student work — all from the app.
+          </p>
+        </div>
+      </div>
+
+      {/* "What's coming" section */}
+      <div className="space-y-4 pt-1">
+        <h4 className="text-[10px] font-extrabold text-secondaryText uppercase tracking-wider block px-1">What's coming</h4>
+
+        <div className="bg-white rounded-[28px] border border-[#e2e8f0]/40 p-5 card-shadow space-y-4">
+          {[
+            { text: 'Create assignments with due dates', icon: <FiPlusCircle className="w-4 h-4 text-[#1597E5]" /> },
+            { text: 'Students submit via the parent app', icon: <FiFileText className="w-4 h-4 text-[#1597E5]" /> },
+            { text: 'Grade and provide feedback', icon: <FiCheckCircle className="w-4 h-4 text-[#1597E5]" /> },
+            { text: 'Track completion rates by class', icon: <FiHelpCircle className="w-4 h-4 text-[#1597E5]" /> }
+          ].map((item, idx) => (
+            <div key={idx} className="flex items-center gap-3.5 text-xs text-dark font-semibold">
+              <div className="w-8 h-8 rounded-full bg-[#EEF5FB] flex items-center justify-center shrink-0">
+                {item.icon}
+              </div>
+              <span>{item.text}</span>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Sticky Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 md:left-[260px] select-none">
+        <div className="max-w-[640px] mx-auto px-4 pb-2.5">
+          <button
+            onClick={() => navigate('/settings/take-attendance')}
+            className="w-full py-4 bg-[#1597E5] hover:bg-[#00A1FF] text-white rounded-[24px] font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-[#1597E5]/35 transition-all cursor-pointer active:scale-95"
+          >
+            <FiCalendar className="w-4 h-4" />
+            <span>Take Attendance Instead</span>
+          </button>
         </div>
       </div>
     </motion.div>

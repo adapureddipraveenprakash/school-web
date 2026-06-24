@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiSearch, FiEdit2, FiTrash2, FiUser, FiInfo, FiLayers } from 'react-icons/fi';
+import { FiArrowLeft, FiSearch, FiEdit2, FiTrash2, FiUser, FiInfo, FiLayers, FiInbox, FiFilter, FiCheck } from 'react-icons/fi';
+import { useApp } from '../../context/AppContext';
+
+const COORDINATOR_TEACHERS = [
+  { id: '26SOTS003', name: 'Raghupatruni Roopakala', role: 'Coordinator', phone: '+918297191669' },
+  { id: '26SOTS007', name: 'Samineni Deepika', role: 'Teacher', phone: '+919988776655' },
+  { id: '26SOTS014', name: 'Mukka Lavanya', role: 'Teacher', phone: '+919966554433' },
+  { id: '26SOTS001', name: 'T. Satish Kumar', role: 'Teacher', phone: '+919876543210' },
+  { id: '26SOTS005', name: 'K. Anitha', role: 'Teacher', phone: '+918765432109' },
+  { id: '26SOTS006', name: 'P. Lakshmi', role: 'Teacher', phone: '+917654321098' },
+  { id: '26SOTS008', name: 'M. Srinivasa Rao', role: 'Teacher', phone: '+916543210987' },
+  { id: '26SOTS011', name: 'G. Sravani', role: 'Teacher', phone: '+915432109876' }
+];
 
 const MOCK_ASSIGNMENTS = [
   {
@@ -155,6 +167,19 @@ const WING_MAPPING = {
 
 const ClassTeachers = () => {
   const navigate = useNavigate();
+  const { activeRole } = useApp();
+  
+  // Coordinator specific state
+  const [coSelectedSection, setCoSelectedSection] = useState('Choose a section...');
+  const [coSearch, setCoSearch] = useState('');
+  const [coAssignments, setCoAssignments] = useState({
+    '1-A': '',
+    '2-A': '',
+    '3-A': '',
+    '4-A': '',
+    '5-A': ''
+  });
+
   const [assignments, setAssignments] = useState(MOCK_ASSIGNMENTS);
   const [search, setSearch] = useState('');
   const [filterTab, setFilterTab] = useState('All'); // 'All' | 'Assigned' | 'Unassigned'
@@ -168,6 +193,162 @@ const ClassTeachers = () => {
   const [classFilter, setClassFilter] = useState('All Classes');
   const [sectionFilter, setSectionFilter] = useState('All Sections');
   const [teacherFilter, setTeacherFilter] = useState('All Teachers / Coordinators');
+
+  if (activeRole === 'COORDINATOR') {
+    const coSections = ['1-A', '2-A', '3-A', '4-A', '5-A'];
+    const isSectionSelected = coSelectedSection !== 'Choose a section...';
+    
+    const filteredTeachers = isSectionSelected 
+      ? COORDINATOR_TEACHERS.filter(t => t.name.toLowerCase().includes(coSearch.toLowerCase()))
+      : [];
+
+    const handleCoAssign = (teacherId) => {
+      setCoAssignments(prev => ({
+        ...prev,
+        [coSelectedSection]: teacherId
+      }));
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.3 }}
+        className="p-4 md:p-8 space-y-6 pb-24 md:pb-8 max-w-[640px] mx-auto animate-fade-in relative select-none"
+      >
+        {/* Top Header Bar */}
+        <header className="flex items-center justify-between py-2 border-b border-[#e2e8f0]/40 shrink-0">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-1.5 hover:bg-[#EEF5FB] rounded-full text-dark transition-colors cursor-pointer"
+          >
+            <FiArrowLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-sm font-bold text-dark pr-8 mx-auto">Assign Teachers</h1>
+        </header>
+
+        {/* Top curved blue header card */}
+        <div className="relative rounded-[32px] bg-gradient-to-br from-[#1E56EC] to-[#4076FF] p-6 text-white card-shadow overflow-hidden">
+          <div className="absolute top-[-40px] right-[-40px] w-48 h-48 rounded-full border-[16px] border-white/5" />
+          <div className="absolute top-[-20px] right-[-20px] w-36 h-36 rounded-full border-[12px] border-white/10" />
+
+          <div className="mb-2 relative z-10">
+            <span className="text-[10px] text-white/70 font-semibold tracking-wider uppercase">Coordinator · AY 2026-2027</span>
+          </div>
+
+          <h2 className="text-xl font-bold mb-1 relative z-10">Assign Teachers</h2>
+          <p className="text-xs text-white/85 font-medium relative z-10">
+            Select a section, then pick an available teacher
+          </p>
+        </div>
+
+        {/* Select Section block */}
+        <div className="space-y-2">
+          <label className="text-[10.5px] font-black text-[#0F172A] uppercase tracking-wide block">
+            Select Section
+          </label>
+          <select
+            value={coSelectedSection}
+            onChange={(e) => setCoSelectedSection(e.target.value)}
+            className="w-full px-4 py-3.5 bg-white border border-[#e2e8f0] rounded-[20px] text-xs font-semibold text-dark focus:outline-none focus:border-brand-blue"
+          >
+            <option>Choose a section...</option>
+            {coSections.map(sec => (
+              <option key={sec} value={sec}>{sec}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Search bar + filter button */}
+        <div className="flex gap-3 items-center">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search teachers..."
+              value={coSearch}
+              onChange={(e) => setCoSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-3.5 bg-white border border-[#e2e8f0] rounded-[20px] card-shadow-inset focus:outline-none focus:border-brand-blue/60 text-xs font-semibold text-dark placeholder:text-[#A0AEC0]"
+            />
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A0AEC0]" />
+          </div>
+
+          <button className="flex items-center gap-1.5 px-5 py-3.5 border border-[#1597E5] text-[#1597E5] rounded-[20px] text-xs font-bold bg-[#EEF5FB]/30 hover:bg-[#EEF5FB]/70 transition-all select-none">
+            <FiFilter className="w-3.5 h-3.5" />
+            <span>All</span>
+          </button>
+        </div>
+
+        {/* List Header */}
+        <div className="px-1 text-[9px] font-extrabold text-secondaryText tracking-widest uppercase">
+          {filteredTeachers.length} teachers
+        </div>
+
+        {/* Teachers list or Empty State */}
+        {filteredTeachers.length > 0 ? (
+          <div className="space-y-3">
+            {filteredTeachers.map((teacher) => {
+              const isAssignedToThis = coAssignments[coSelectedSection] === teacher.id;
+              const assignedSec = Object.keys(coAssignments).find(key => coAssignments[key] === teacher.id);
+              
+              return (
+                <div
+                  key={teacher.id}
+                  onClick={() => handleCoAssign(teacher.id)}
+                  className={`bg-white rounded-[24px] border p-4 px-5 card-shadow flex items-center justify-between hover:border-brand-blue/20 transition-all cursor-pointer group active:scale-[0.99] ${
+                    isAssignedToThis ? 'border-[#23C16B] border-2' : 'border-[#e2e8f0]/45'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-full bg-[#EEF5FB] text-brand-blue border border-brand-blue/5 flex items-center justify-center font-bold text-xs select-none">
+                      {teacher.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <h3 className="text-xs font-extrabold text-dark leading-tight group-hover:text-brand-blue transition-colors">
+                        {teacher.name}
+                      </h3>
+                      <p className="text-[9px] text-[#A0AEC0] font-bold mt-1">
+                        {teacher.role} · {teacher.id}
+                      </p>
+                    </div>
+                  </div>
+
+                  {isAssignedToThis ? (
+                    <span className="px-2.5 py-1 bg-[#E8F8F0] text-[#23C16B] text-[8px] font-extrabold rounded-lg uppercase tracking-wider flex items-center gap-1">
+                      <FiCheck className="w-3 h-3" /> Assigned
+                    </span>
+                  ) : assignedSec ? (
+                    <span className="px-2.5 py-1 bg-amber-50 text-amber-500 text-[8px] font-extrabold rounded-lg uppercase tracking-wider">
+                      Assigned to {assignedSec}
+                    </span>
+                  ) : (
+                    <button className="px-3.5 py-1.5 bg-[#EEF5FB] hover:bg-brand-blue hover:text-white text-brand-blue text-[10px] font-extrabold rounded-full transition-all">
+                      Assign
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="bg-white rounded-[28px] border border-[#e2e8f0]/40 p-12 card-shadow text-center flex flex-col items-center justify-center space-y-4 min-h-[260px] select-none">
+            <div className="w-18 h-18 rounded-full bg-[#EEF5FB] flex items-center justify-center text-[#1597E5] border border-brand-blue/10">
+              <FiInbox className="w-8 h-8" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-sm font-black text-dark">No teachers found</h4>
+              <p className="text-[10.5px] text-secondaryText font-bold">
+                {isSectionSelected 
+                  ? 'Try a different search term.'
+                  : 'Please select a section above to view available teachers.'
+                }
+              </p>
+            </div>
+          </div>
+        )}
+      </motion.div>
+    );
+  }
 
   // Submit new assignment
   const handleAssign = (e) => {

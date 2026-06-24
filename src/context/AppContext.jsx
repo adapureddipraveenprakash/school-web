@@ -58,7 +58,7 @@ const SEED_USERS = [
   {
     uid: 'teacher-uid',
     role: 'TEACHER',
-    name: 'T. Satish Kumar',
+    name: 'Salapu Vasanthi',
     phone: '9347339048',
     email: 'teacher.so@nsrit.edu.in',
     status: 'active',
@@ -76,7 +76,7 @@ const SEED_USERS = [
   {
     uid: 'accountant-uid',
     role: 'ACCOUNTANT',
-    name: 'A. Srinivasa Rao',
+    name: 'Patsamatla Padma Manjula',
     phone: '9951335377',
     email: 'accountant.so@nsrit.edu.in',
     status: 'active',
@@ -209,7 +209,7 @@ export const AppProvider = ({ children }) => {
   }, [user]);
 
   // Auth Operations
-  const login = (phone) => {
+  const login = (phone, customRole = null) => {
     // Standard simulation: log in the user matching phone, or default to Main Admin
     const foundUser = users.find(u => u.phone === phone) || {
       uid: 'simulated-user-' + Date.now(),
@@ -220,9 +220,10 @@ export const AppProvider = ({ children }) => {
       status: 'active',
       createdAt: new Date().toISOString()
     };
-    setUser(foundUser);
-    setActiveRole(foundUser.role);
-    addLog(`Logged in with phone +91${phone}`);
+    const startRole = customRole || foundUser.role;
+    setUser({ ...foundUser, role: startRole });
+    setActiveRole(startRole);
+    addLog(`Logged in with phone +91${phone} as ${startRole}`);
   };
 
   const logout = () => {

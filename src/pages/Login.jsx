@@ -10,6 +10,9 @@ const Login = () => {
   const [showOtpScreen, setShowOtpScreen] = useState(false);
   const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(60);
+  const [showRoleSelector, setShowRoleSelector] = useState(false);
+  const [authPhone, setAuthPhone] = useState('');
+  const [selectorUser, setSelectorUser] = useState(null);
 
   // Timer countdown for OTP
   useEffect(() => {
@@ -65,9 +68,43 @@ const Login = () => {
       setError('Please enter the 6-digit code');
       return;
     }
-    // Simulation bypass: allow any 6-digit OTP code to log in
     setError('');
-    login(phoneNumber);
+    if (phoneNumber === '9347339048') {
+      setAuthPhone(phoneNumber);
+      setSelectorUser({
+        initials: 'SV',
+        name: 'Salapu Vasanthi',
+        roles: [
+          { key: 'CLASS_TEACHER', title: 'Class Teacher', desc: 'Class teacher duties and section management', bg: 'bg-[#E8F8F0]', text: 'text-[#23C16B]', icon: 'class_teacher' },
+          { key: 'TEACHER', title: 'Teacher', desc: 'Mark attendance and manage classes', bg: 'bg-[#E8F8F0]', text: 'text-[#23C16B]', icon: 'teacher' }
+        ]
+      });
+      setShowRoleSelector(true);
+    } else if (phoneNumber === '9951335377') {
+      setAuthPhone(phoneNumber);
+      setSelectorUser({
+        initials: 'PP',
+        name: 'Patsamatla Padma Manjula',
+        roles: [
+          { key: 'PARENT', title: 'Parent', desc: 'View child attendance, fees and homework', bg: 'bg-[#EEF5FB]', text: 'text-brand-blue', icon: 'parent' },
+          { key: 'ACCOUNTANT', title: 'Accountant', desc: 'Fee collection and financial records', bg: 'bg-[#FFF3E0]', text: 'text-accent-orange', icon: 'accountant' }
+        ]
+      });
+      setShowRoleSelector(true);
+    } else if (phoneNumber === '8297191669') {
+      setAuthPhone(phoneNumber);
+      setSelectorUser({
+        initials: 'RR',
+        name: 'Raghupatruni Roopakala',
+        roles: [
+          { key: 'CLASS_TEACHER', title: 'Class Teacher', desc: 'Class teacher duties and section management', bg: 'bg-[#EBF8FF]', text: 'text-[#1597E5]', icon: 'class_teacher' },
+          { key: 'COORDINATOR', title: 'Coordinator', desc: 'Manage academic operations and wings', bg: 'bg-[#FFF8EE]', text: 'text-[#FF9F1C]', icon: 'coordinator' }
+        ]
+      });
+      setShowRoleSelector(true);
+    } else {
+      login(phoneNumber);
+    }
   };
 
   return (
@@ -103,7 +140,101 @@ const Login = () => {
         <div className="absolute top-0 left-8 w-16 h-[4px] bg-brand-blue rounded-b" />
 
         <AnimatePresence mode="wait">
-          {!showOtpScreen ? (
+          {showRoleSelector ? (
+            <motion.div
+              key="role-selection"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="flex flex-col items-center text-center"
+            >
+              {/* Avatar circle */}
+              <div className="w-20 h-20 rounded-full bg-[#1597E5] text-white flex items-center justify-center font-bold text-2xl mb-4 shadow-sm border border-white/20 select-none font-sans">
+                {selectorUser?.initials}
+              </div>
+              
+              <p className="text-[10px] text-secondaryText font-bold uppercase tracking-wide">Welcome back</p>
+              <h2 className="text-xl font-black text-dark tracking-tight mt-0.5">{selectorUser?.name}</h2>
+              <p className="text-xs text-secondaryText leading-relaxed mt-1.5 mb-6 font-medium">
+                This account has multiple roles.<br/>Select how you want to sign in.
+              </p>
+
+              {/* SELECT AN ACCOUNT */}
+              <div className="w-full text-left">
+                <div className="flex items-center gap-1.5 mb-3 px-1">
+                  <svg className="w-3.5 h-3.5 text-[#A0AEC0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <span className="text-[9px] font-black text-secondaryText tracking-widest uppercase">
+                    SELECT AN ACCOUNT
+                  </span>
+                </div>
+
+                <div className="bg-white rounded-2xl border border-[#e2e8f0]/70 overflow-hidden divide-y divide-[#e2e8f0]/70 card-shadow-sm">
+                  {selectorUser?.roles?.map((role) => (
+                    <div
+                      key={role.key}
+                      onClick={() => login(authPhone, role.key)}
+                      className="flex justify-between items-center p-4.5 hover:bg-[#EEF5FB]/30 transition-all cursor-pointer group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-xl ${role.bg} ${role.text} flex items-center justify-center shrink-0`}>
+                          {role.icon === 'teacher' && (
+                             <svg stroke="currentColor" fill="none" strokeWidth="2.2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                               <rect x="7" y="5" width="14" height="10" rx="1" />
+                               <path d="M12 15v3m-3 3h6" />
+                               <circle cx="3.5" cy="11.5" r="1.5" />
+                               <path d="M2 17a1.5 1.5 0 013 0v4H2v-4z" />
+                             </svg>
+                          )}
+                          {role.icon === 'class_teacher' && (
+                            <span className="text-sm font-black">?</span>
+                          )}
+                          {role.icon === 'parent' && (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          )}
+                          {role.icon === 'accountant' && (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                          {role.icon === 'coordinator' && (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                          )}
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-bold text-dark group-hover:text-[#1597E5] transition-colors">{role.title}</h4>
+                          <p className="text-[9.5px] text-secondaryText mt-0.5 font-medium">{role.desc}</p>
+                        </div>
+                      </div>
+                      <span className="text-secondaryText text-sm group-hover:translate-x-0.5 transition-transform">&gt;</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Use different account link */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowRoleSelector(false);
+                  setShowOtpScreen(false);
+                  setOtpCode(['', '', '', '', '', '']);
+                }}
+                className="mt-6 inline-flex items-center gap-1.5 text-[11px] font-bold text-secondaryText hover:text-dark transition-colors cursor-pointer select-none"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span>Use a different account</span>
+              </button>
+            </motion.div>
+          ) : !showOtpScreen ? (
             <motion.div
               key="phone-input"
               initial={{ opacity: 0, x: -20 }}

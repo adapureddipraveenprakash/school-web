@@ -3,7 +3,9 @@ import { useApp } from '../context/AppContext';
 import { motion } from 'framer-motion';
 import {
   FiArrowRight, FiUsers, FiCalendar, FiActivity, FiSettings,
-  FiDollarSign, FiBookOpen, FiClock, FiCheckCircle
+  FiDollarSign, FiBookOpen, FiClock, FiCheckCircle, FiBell,
+  FiMessageSquare, FiRefreshCw, FiUser, FiMoreVertical, FiCreditCard,
+  FiHelpCircle, FiHome
 } from 'react-icons/fi';
 import Drawer from '../components/Drawer';
 import { useNavigate } from 'react-router-dom';
@@ -14,30 +16,34 @@ const ParentDashboard = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [showThreeDotsMenu, setShowThreeDotsMenu] = useState(false);
 
-  // Simulated children data
+  // Simulated children data matching screenshots exactly
   const children = [
     {
       id: 'child-1',
-      fullName: 'P. Sai Kumar',
-      studentId: 'NSR26SOT078',
-      class: 'Class 5',
-      section: 'Section A',
-      attendance: 92,
-      feeSummary: { paid: 10000, due: 0, concession: 0 }
+      fullName: 'PATCHAMATLA PR...',
+      studentId: '26SO0066',
+      class: '1',
+      section: 'A',
+      attendance: 100,
+      feeSummary: { paid: 0, due: 41000, concession: 0 }
     },
     {
       id: 'child-2',
-      fullName: 'P. Divya',
-      studentId: 'NSR26SOT104',
-      class: 'Class 3',
-      section: 'Section B',
-      attendance: 88,
-      feeSummary: { paid: 5000, due: 15000, concession: 500 }
+      fullName: 'PATCHAMATLA SEC...',
+      studentId: '26SO0099',
+      class: '2',
+      section: 'B',
+      attendance: 92,
+      feeSummary: { paid: 15000, due: 26000, concession: 1000 }
     }
   ];
 
   const [selectedChildIndex, setSelectedChildIndex] = useState(0);
   const activeChild = children[selectedChildIndex];
+
+  const toggleChild = () => {
+    setSelectedChildIndex((prev) => (prev === 0 ? 1 : 0));
+  };
 
   const handleListItemClick = (item) => {
     if (item === 'Attendance') {
@@ -61,237 +67,243 @@ const ParentDashboard = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.3 }}
-      className="p-4 md:p-8 pb-20 md:pb-8 max-w-5xl mx-auto space-y-6"
+      className="p-4 md:p-8 pb-24 md:pb-8 max-w-7xl mx-auto space-y-6"
     >
       {/* Centered Page Header */}
-      <div className="text-center py-2 shrink-0">
-        <h1 className="text-lg font-bold text-dark tracking-tight">Parent Portal</h1>
+      <div className="text-center py-1.5 shrink-0 select-none">
+        <h1 className="text-lg font-bold text-[#0F172A] tracking-tight">Home</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-        {/* Left Column (spans 2 on desktop) */}
-        <div className="md:col-span-2 space-y-6">
-          
-          {/* Hero greeting banner (Teal theme for Parent) */}
-          <div className="relative rounded-[32px] bg-gradient-to-br from-[#10B981] to-[#059669] p-6 md:p-8 text-white card-shadow overflow-hidden">
-            {/* Background design elements */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Column 1: Greeting Banner & Selected Child Card */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Greeting Banner */}
+          <div className="relative rounded-[28px] bg-gradient-to-br from-[#00a6ff] to-[#0077ff] p-6 text-white card-shadow overflow-hidden select-none">
+            {/* Floating background design elements */}
             <div className="absolute top-[-30px] right-[-30px] w-36 h-36 rounded-full bg-white/10" />
             <div className="absolute bottom-[-40px] left-[10%] w-48 h-48 rounded-full bg-white/5" />
 
             <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setIsProfileOpen(true)}
-                  className="w-14 h-14 rounded-full bg-white/20 border border-white/40 flex items-center justify-center text-xl font-bold font-sans cursor-pointer hover:bg-white/30 transition-all select-none animate-[pulse_3s_infinite]"
-                >
-                  PA
-                </button>
-                <div>
-                  <p className="text-[10px] text-white/70 font-semibold tracking-wider uppercase">Good Afternoon,</p>
-                  <h2 className="text-2xl font-bold">{user?.name || 'Parent'}</h2>
-                  
-                  {/* Badge */}
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 border border-white/25 rounded-full mt-2 text-[10px] font-semibold uppercase tracking-wide">
-                    <span className="w-1.5 h-1.5 bg-[#23C16B] rounded-full" />
-                    Parent / Guardian
-                  </div>
+              <div>
+                <p className="text-[10px] text-white/75 font-bold tracking-wider uppercase">Good Morning,</p>
+                <h2 className="text-xl font-black mt-1 tracking-tight">Patsamatla Padma M...</h2>
+                
+                {/* Role Badge */}
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/20 border border-white/25 rounded-full mt-4 text-[9px] font-black uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 bg-[#23C16B] rounded-full" />
+                  Parent Portal
                 </div>
               </div>
 
-              <div className="flex flex-col items-end gap-3">
+              <div className="flex flex-col items-end gap-5">
                 <button
                   onClick={() => setShowThreeDotsMenu(true)}
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all cursor-pointer shadow-sm active:scale-95 z-30"
+                  className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 border border-white/15 flex items-center justify-center text-white transition-all cursor-pointer shadow-sm active:scale-95 z-30"
                 >
-                  <FiSettings className="w-5 h-5" />
+                  <FiMoreVertical className="w-4.5 h-4.5" />
                 </button>
                 
-                <span className="text-[10px] font-bold text-white/70 uppercase">Sun, 21 Jun</span>
-              </div>
-            </div>
-
-            {/* Bottom aggregate statistics grid */}
-            <div className="pt-6 border-t border-white/15 text-left">
-              <p className="text-[10px] text-white/60 font-semibold uppercase tracking-wider mb-2">Linked Children</p>
-              <div className="flex gap-2.5 overflow-x-auto pb-1">
-                {children.map((child, index) => {
-                  const isSelected = index === selectedChildIndex;
-                  return (
-                    <button
-                      key={child.id}
-                      onClick={() => setSelectedChildIndex(index)}
-                      className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                        isSelected 
-                          ? 'bg-white text-[#059669] shadow-md' 
-                          : 'bg-white/20 text-white hover:bg-white/30 border border-white/10'
-                      }`}
-                    >
-                      <FiBookOpen className="w-3.5 h-3.5" />
-                      {child.fullName}
-                    </button>
-                  );
-                })}
+                <span className="text-[9px] font-black text-white/70 uppercase tracking-widest">Wed, 24 Jun</span>
               </div>
             </div>
           </div>
 
           {/* Selected Child Info & Attendance Card */}
-          <div className="bg-white rounded-[24px] p-6 card-shadow border border-[#e2e8f0]/40 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
-            {/* Left Child Details */}
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              <div className="w-16 h-16 rounded-full bg-emerald-50 border-4 border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                <span className="text-2xl font-bold font-sans">👶</span>
-              </div>
-              <div>
-                <h3 className="text-base font-extrabold text-dark">{activeChild.fullName}</h3>
-                <p className="text-xs text-secondaryText mt-0.5 font-semibold">
-                  {activeChild.class} · {activeChild.section}
-                </p>
-                <p className="text-[10px] text-secondaryText/60 mt-1 font-mono font-bold">{activeChild.studentId}</p>
-              </div>
-            </div>
-
-            {/* Attendance Ring SVG simulation */}
-            <div className="relative flex items-center justify-center shrink-0 w-24 h-24">
-              <svg className="w-20 h-20 transform -rotate-90">
-                <circle cx="40" cy="40" r="34" className="stroke-slate-100" strokeWidth="6" fill="transparent" />
-                <circle
-                  cx="40"
-                  cy="40"
-                  r="34"
-                  className="stroke-emerald-500 transition-all duration-500"
-                  strokeWidth="6"
-                  fill="transparent"
-                  strokeDasharray="213"
-                  strokeDashoffset={213 - (213 * activeChild.attendance) / 100}
-                />
-              </svg>
-              <div className="absolute flex flex-col items-center justify-center font-sans">
-                <span className="text-sm font-extrabold text-dark">{activeChild.attendance}%</span>
-                <span className="text-[7px] font-bold text-secondaryText uppercase tracking-widest">Attendance</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Child Fee Summary Card */}
-          <div className="bg-white rounded-[24px] p-6 card-shadow border border-[#e2e8f0]/40 space-y-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                  <FiDollarSign className="w-5 h-5" />
+          <div className="bg-white rounded-[28px] p-6 card-shadow border-t-4 border-[#00a6ff] border-x border-b border-[#e2e8f0]/40 flex flex-col gap-5 relative overflow-hidden select-none">
+            
+            {/* Child Header Row */}
+            <div className="flex justify-between items-center w-full">
+              <div className="flex items-center gap-4">
+                {/* Avatar Circle with initials */}
+                <div className="w-14 h-14 rounded-full bg-[#EEF5FB] flex items-center justify-center text-[#0088ff] font-bold text-xl border border-blue-100 shrink-0">
+                  PP
                 </div>
-                <h3 className="text-sm font-extrabold text-dark">Fee status</h3>
-              </div>
-              {activeChild.feeSummary.due === 0 ? (
-                <div className="flex items-center gap-1 text-xs text-accent-green font-bold bg-[#E8F8F0] px-3 py-1 rounded-full">
-                  <FiCheckCircle className="w-3.5 h-3.5" /> All Cleared
+                <div>
+                  <h3 className="text-[15px] font-black text-[#0F172A] tracking-tight">{activeChild.fullName}</h3>
+                  <p className="text-xs text-secondaryText font-bold mt-0.5">
+                    {activeChild.class} · {activeChild.section}
+                  </p>
+                  <p className="text-[10px] text-secondaryText/60 mt-1 font-mono font-bold">{activeChild.studentId}</p>
                 </div>
-              ) : (
-                <span className="text-xs font-bold text-accent-red">Dues Pending</span>
-              )}
+              </div>
+
+              {/* Attendance Circle Ring SVG */}
+              <div className="relative flex items-center justify-center shrink-0 w-20 h-20">
+                <svg className="w-16 h-16 transform -rotate-90">
+                  <circle cx="32" cy="32" r="26" className="stroke-slate-100" strokeWidth="5.5" fill="transparent" />
+                  <circle
+                    cx="32"
+                    cy="32"
+                    r="26"
+                    className="stroke-[#00c853] transition-all duration-500"
+                    strokeWidth="5.5"
+                    fill="transparent"
+                    strokeDasharray="163.3"
+                    strokeDashoffset={163.3 - (163.3 * activeChild.attendance) / 100}
+                  />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center font-sans">
+                  <span className="text-[11px] font-black text-dark leading-none">{activeChild.attendance}%</span>
+                  <span className="text-[7px] font-bold text-secondaryText uppercase tracking-widest mt-0.5">Att</span>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 pt-2 text-center text-xs divide-x divide-slate-100 font-bold">
-              <div>
-                <p className="text-accent-green">Rs {activeChild.feeSummary.paid.toLocaleString('en-IN')}</p>
-                <p className="text-[9px] text-secondaryText uppercase tracking-wider mt-0.5">Paid</p>
+            {/* 3 Metrics Badge Row */}
+            <div className="grid grid-cols-3 gap-2">
+              {/* Badge 1: Attendance */}
+              <div className="flex items-center gap-2 p-2 border border-emerald-100 bg-[#f0fdf4]/30 rounded-[16px] flex-1">
+                <div className="w-6 h-6 rounded-full bg-[#f0fdf4] border border-emerald-100 flex items-center justify-center text-[#059669] shrink-0">
+                  <FiCalendar className="w-3.5 h-3.5" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-black text-[#059669] leading-tight">{activeChild.attendance}%</span>
+                  <span className="text-[7.5px] font-bold text-secondaryText uppercase tracking-wider">Attendance</span>
+                </div>
               </div>
-              <div>
-                <p className="text-accent-red">Rs {activeChild.feeSummary.due.toLocaleString('en-IN')}</p>
-                <p className="text-[9px] text-secondaryText uppercase tracking-wider mt-0.5">Due Amount</p>
+
+              {/* Badge 2: Fee Due */}
+              <div className="flex items-center gap-2 p-2 border border-amber-100 bg-[#fef3c7]/30 rounded-[16px] flex-1">
+                <div className="w-6 h-6 rounded-full bg-[#fef3c7] border border-amber-100 flex items-center justify-center text-[#d97706] shrink-0">
+                  <FiHelpCircle className="w-3.5 h-3.5" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-black text-[#d97706] leading-tight">Rs {activeChild.feeSummary.due.toLocaleString('en-IN')}</span>
+                  <span className="text-[7.5px] font-bold text-secondaryText uppercase tracking-wider">Fee Due</span>
+                </div>
               </div>
-              <div>
-                <p className="text-brand-blue">Rs {activeChild.feeSummary.concession.toLocaleString('en-IN')}</p>
-                <p className="text-[9px] text-secondaryText uppercase tracking-wider mt-0.5">Concessions</p>
+
+              {/* Badge 3: Class */}
+              <div className="flex items-center gap-2 p-2 border border-purple-100 bg-[#f3e8ff]/30 rounded-[16px] flex-1">
+                <div className="w-6 h-6 rounded-full bg-[#f3e8ff] border border-purple-100 flex items-center justify-center text-[#8b5cf6] shrink-0">
+                  <FiBookOpen className="w-3.5 h-3.5" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[10px] font-black text-[#8b5cf6] leading-tight">{activeChild.class}-{activeChild.section}</span>
+                  <span className="text-[7.5px] font-bold text-secondaryText uppercase tracking-wider">Class</span>
+                </div>
               </div>
             </div>
 
-            {activeChild.feeSummary.due > 0 && (
+            {/* Switch Child Link */}
+            <div className="flex justify-end pt-1">
               <button
-                onClick={() => handleListItemClick('Pay Now')}
-                className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-500/10 active:scale-95 cursor-pointer"
+                onClick={() => navigate('/settings/global-students')}
+                className="text-[10px] font-extrabold text-[#0088ff] hover:underline flex items-center gap-1 cursor-pointer active:scale-95"
               >
-                Pay Now
+                <FiRefreshCw className="w-3 h-3" />
+                Switch child
               </button>
-            )}
-          </div>
+            </div>
 
+          </div>
         </div>
 
-        {/* Right Column (spans 1 on desktop) */}
-        <div className="space-y-6">
-          
+        {/* Column 2: Quick Actions & Fee Summary */}
+        <div className="lg:col-span-1 space-y-6">
           {/* QUICK ACTIONS Section */}
-          <div>
-            <div className="flex items-center gap-2 mb-3 px-1">
-              <div className="w-6 h-6 rounded-full bg-[#EEF5FB] flex items-center justify-center text-emerald-600">
-                <span className="text-xs font-extrabold">⚡</span>
-              </div>
-              <h2 className="text-[10px] font-bold text-secondaryText tracking-wider uppercase">Quick Actions</h2>
+          <div className="space-y-3">
+            <div className="flex items-center gap-1.5 px-1 select-none">
+              <span className="text-[#0088ff] font-bold text-xs">⚡</span>
+              <h2 className="text-[10.5px] font-extrabold text-secondaryText tracking-widest uppercase">Quick Actions</h2>
             </div>
 
-            <div className="bg-white rounded-[24px] card-shadow border border-[#e2e8f0]/40 overflow-hidden divide-y divide-[#e2e8f0]/80">
+            <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-4 gap-4 pt-1 select-none">
               {[
-                {
-                  title: 'Attendance',
-                  desc: 'Check child daily logs',
-                  icon: <FiCalendar className="w-5 h-5" />,
-                  color: 'text-emerald-600 bg-emerald-50'
-                },
-                {
-                  title: 'Fee Ledger',
-                  desc: 'Full transactions record',
-                  icon: <FiDollarSign className="w-5 h-5" />,
-                  color: 'text-[#FF9F1C] bg-[#FFF8EE]'
-                },
-                {
-                  title: 'Pay Fees',
-                  desc: 'Pay academic dues securely',
-                  icon: <FiActivity className="w-5 h-5" />,
-                  color: 'text-[#23C16B] bg-[#E8F8F0]'
-                },
-                {
-                  title: 'Timetable',
-                  desc: 'Syllabus and period schedule',
-                  icon: <FiClock className="w-5 h-5" />,
-                  color: 'text-brand-blue bg-[#EEF5FB]'
-                },
-                {
-                  title: 'Notices',
-                  desc: 'Read messages from principal',
-                  icon: <FiBookOpen className="w-5 h-5" />,
-                  color: 'text-indigo-600 bg-indigo-50'
-                },
-                {
-                  title: 'Suggestions',
-                  desc: 'Send suggestions to board',
-                  icon: <FiSettings className="w-5 h-5" />,
-                  color: 'text-rose-600 bg-rose-50'
-                }
+                { title: 'Attendance', label: 'ATTENDANCE', icon: <FiCalendar className="w-5.5 h-5.5 text-[#00a896]" />, bg: 'bg-[#e6fbf7] border border-[#a8ebd9]' },
+                { title: 'Fee Ledger', label: 'FEE LEDGER', icon: <FiDollarSign className="w-5.5 h-5.5 text-[#e5a93b]" />, bg: 'bg-[#fdf6e6] border border-[#f5e3be]' },
+                { title: 'Pay Fees', label: 'PAY FEES', icon: <FiCreditCard className="w-5.5 h-5.5 text-[#00bfa5]" />, bg: 'bg-[#e0f7f4] border border-[#b2ebf2]' },
+                { title: 'Timetable', label: 'TIMETABLE', icon: <FiClock className="w-5.5 h-5.5 text-[#1e88e5]" />, bg: 'bg-[#e3f2fd] border border-[#bbdefb]' },
+                { title: 'Notices', label: 'NOTICES', icon: <FiBell className="w-5.5 h-5.5 text-[#8e24aa]" />, bg: 'bg-[#f3e5f5] border border-[#e1bee7]' },
+                { title: 'Suggestions', label: 'SUGGESTIO...', icon: <FiMessageSquare className="w-5.5 h-5.5 text-[#d84315]" />, bg: 'bg-[#fbe9e7] border border-[#ffccbc]' },
+                { title: 'Switch Child', label: 'SWITCH CH...', icon: <FiRefreshCw className="w-5.5 h-5.5 text-[#00acc1]" />, bg: 'bg-[#e0f7fa] border border-[#b2ebf2]' },
+                { title: 'Profile', label: 'PROFILE', icon: <FiUser className="w-5.5 h-5.5 text-[#5e35b1]" />, bg: 'bg-[#ede7f6] border border-[#d1c4e9]' }
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  onClick={() => handleListItemClick(item.title)}
-                  className="flex justify-between items-center p-4 hover:bg-[#EEF5FB]/30 transition-all cursor-pointer group"
+                  onClick={() => {
+                    if (item.title === 'Switch Child') {
+                      navigate('/settings/global-students');
+                    } else if (item.title === 'Fee Ledger') {
+                      navigate('/settings/ledger');
+                    } else {
+                      handleListItemClick(item.title);
+                    }
+                  }}
+                  className="flex flex-col items-center gap-2 cursor-pointer transition-transform active:scale-95 group"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
-                      {item.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-xs font-bold text-dark group-hover:text-emerald-600 transition-colors">{item.title}</h3>
-                      <p className="text-[10px] text-secondaryText mt-0.5 font-medium">{item.desc}</p>
-                    </div>
+                  <div className={`w-14 h-14 rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-all ${item.bg}`}>
+                    {item.icon}
                   </div>
-                  
-                  <div className="w-7 h-7 rounded-full bg-[#EEF5FB] group-hover:bg-emerald-50 flex items-center justify-center text-emerald-600 transition-all">
-                    <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </div>
+                  <span className="text-[9px] font-black text-secondaryText tracking-wider text-center uppercase group-hover:text-[#0088ff] transition-colors truncate max-w-[70px]">
+                    {item.label}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* FEE SUMMARY Section */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center px-1 select-none">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[#0088ff] font-bold text-xs">💵</span>
+                <h2 className="text-[10.5px] font-extrabold text-secondaryText tracking-widest uppercase">Fee Summary</h2>
+              </div>
+              <button
+                onClick={() => navigate('/settings/fee-overview')}
+                className="px-3 py-1 bg-[#EEF5FB] hover:bg-[#e0effa] text-brand-blue text-[9px] font-black rounded-full flex items-center gap-0.5 transition-all"
+              >
+                View All <span className="text-[7px]">&gt;</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-[28px] p-5 card-shadow border border-[#e2e8f0]/40 space-y-5 select-none">
+              
+              <div className="grid grid-cols-3 gap-2 text-center text-xs divide-x divide-slate-100">
+                {/* Paid */}
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#e8f5e9] border border-green-100 flex items-center justify-center text-[#2e7d32] shrink-0">
+                    <FiDollarSign className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-[#2e7d32]">Rs {activeChild.feeSummary.paid.toLocaleString('en-IN')}</p>
+                    <p className="text-[8px] font-black text-secondaryText uppercase tracking-widest mt-0.5">Paid</p>
+                  </div>
+                </div>
+
+                {/* Due */}
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#fedeeb] border border-pink-100 flex items-center justify-center text-[#c2185b] shrink-0">
+                    <span className="text-sm font-black">?</span>
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-[#c2185b]">Rs {activeChild.feeSummary.due.toLocaleString('en-IN')}</p>
+                    <p className="text-[8px] font-black text-secondaryText uppercase tracking-widest mt-0.5">Due</p>
+                  </div>
+                </div>
+
+                {/* Concession */}
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#f3e5f5] border border-purple-100 flex items-center justify-center text-[#7b1fa2] shrink-0">
+                    <FiSettings className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black text-[#7b1fa2]">Rs {activeChild.feeSummary.concession.toLocaleString('en-IN')}</p>
+                    <p className="text-[8px] font-black text-secondaryText uppercase tracking-widest mt-0.5">Concession</p>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate('/settings/fee-overview')}
+                className="w-full py-3 bg-[#00a6ff] hover:bg-[#0088ff] text-white rounded-[16px] text-xs font-black transition-all shadow-md shadow-blue-500/10 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <FiCreditCard className="w-4 h-4" />
+                Pay Now
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -302,3 +314,4 @@ const ParentDashboard = () => {
 };
 
 export default ParentDashboard;
+
